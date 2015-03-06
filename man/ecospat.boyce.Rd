@@ -21,9 +21,9 @@
 
 \value{Returns the predicted-to-expected ratio for each class-interval: F.ratio
 
-Returns the Boyce index value: Pearson.cor
+Returns the Boyce index value: Spearman.cor
 
-Creates a graphical plot of the the predicted to expected ratio along the suitability class}
+Creates a graphical plot of the predicted to expected ratio along the suitability class}
 
 \author{Blaise Petitpierre \email{bpetitpierre@gmail.com} and Frank Breiner \email{frank.breiner@unil.ch}}
 

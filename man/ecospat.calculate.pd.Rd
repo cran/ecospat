@@ -19,7 +19,12 @@ average=FALSE, verbose=TRUE)}
   \item{verbose}{Boolean indicating whether to print progress output during calculation. Default is TRUE.}
 }
 
-\details{Given a phylogenetic tree and a presence/absence matrix this script calculates phylogenetic diversity of a group of species across a given set of grid cells or locations. The library "ape" is required to read the tree in R. Command is "read.tree" or "read.nexus"}
+\details{Given a phylogenetic tree and a presence/absence matrix this script calculates phylogenetic diversity of a group of species across a given set of grid cells or locations. The library "ape" is required to read the tree in R. Command is "read.tree" or "read.nexus".
+Options of type:
+"P" is a normalized mearure of "Q".
+"clade" is "PDnode" when root= FALSE, and is "PDroot" ehn root =TRUE.
+"species" is "AvPD".
+}
 
 \value{This function returns a list of phylogenetic diversity values for each of the grid cells in the presence/absence matrix}
 
@@ -36,7 +41,7 @@ average=FALSE, verbose=TRUE)}
 \examples{
 fpath <- system.file("extdata", "ecospat.testTree.tre", package="ecospat")
 tree<-read.tree(fpath)
-data <- ecospat.testData[9:58] 
+data <- ecospat.testData[9:52] 
 
 pd<- ecospat.calculate.pd(tree, data, method = "spanning", type = "species", root = FALSE, 
 average = FALSE, verbose = TRUE )

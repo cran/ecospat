@@ -58,7 +58,7 @@ ecospat.boyce<-function(fit,obs,nclass=0,window.w="default",res=100,PEplot=T){
   if (PEplot==T)plot((apply(interval[which(f!="NaN"),],1,sum)/2),f[which(f!="NaN")],
                      xlab="Habitat suitability",ylab="Predicted/Expected ratio")
   
-  results<-list(F.ratio=f, Pearson.cor=round(b,3), HS=HS, ID=ID)
+  results<-list(F.ratio=f, Spearman.cor=round(b,3), HS=HS, ID=ID)
   
   return(results)
 }

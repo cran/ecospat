@@ -8,7 +8,7 @@ importFrom("ecodist", mgram)
 importFrom("maptools", spRbind)
 importFrom("randomForest", randomForest)
 importFrom("spatstat", nndist)
-importFrom("raster", cellFromXY, extract, nlayers, projection, stack, rasterToPolygons, reclassify)
+importFrom("raster", cellFromXY, extract, nlayers, projection, stack, reclassify, rasterToPolygons) 
 importFrom("rms", pol)
 
 # Export

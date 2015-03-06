@@ -11,7 +11,7 @@
 
 \usage{data(ecospat.testData)}
 
-\format{A data frame with 300 observations on the following 66 variables.
+\format{A data frame with 300 observations on the following 96 variables.
   \describe{
     \item{\code{numplots}}{Number of the vegetation plot.}
     \item{\code{long}}{Longitude, in Swiss plane coordinate system of the vegetation plot.}
@@ -21,72 +21,86 @@
     \item{\code{srad}}{The annual sum of radiation (in kJ m-2 year-1).}
     \item{\code{slp}}{Slope (in degrees) calculated from the DEM25.}
     \item{\code{topo}}{Topographic position (an integrated and unitless measure of topographic exposure.}
-    \item{\code{Agrostis_capillaris}}{}
-    \item{\code{Leontodon_hispidus_sl}}{}
-    \item{\code{Dactylis_glomerata}}{}
-    \item{\code{Trifolium_repens_sstr}}{}
-    \item{\code{Geranium_sylvaticum}}{}
-    \item{\code{Ranunculus_acris_sl}}{}
-    \item{\code{Prunella_vulgaris}}{}
-    \item{\code{Veronica_chamaedrys}}{}
-    \item{\code{Taraxacum_officinale_aggr}}{}
-    \item{\code{Plantago_lanceolata}}{}
-    \item{\code{Potentilla_erecta}}{}
-    \item{\code{Carex_sempervirens}}{}
-    \item{\code{Soldanella_alpina}}{}
-    \item{\code{Cynosurus_cristatus}}{}
-    \item{\code{Campanula_scheuchzeri}}{}
-    \item{\code{Festuca_pratensis_sl}}{}
-    \item{\code{Polygonum_viviparum}}{}
-    \item{\code{Ranunculus_montanus_aggr}}{}
-    \item{\code{Rumex_acetosa}}{}
-    \item{\code{Carex_flacca}}{}
-    \item{\code{Potentilla_aurea}}{}
-    \item{\code{Homogyne_alpina}}{}
-    \item{\code{Briza_media}}{}
-    \item{\code{Lathyrus_pratensis}}{}
-    \item{\code{Poa_alpina}}{}
-    \item{\code{Sesleria_caerulea}}{}
-    \item{\code{Trollius_europaeus}}{}
-    \item{\code{Anthyllis_vulneraria_sl}}{}
-    \item{\code{Deschampsia_cespitosa}}{}
-    \item{\code{Trisetum_flavescens}}{}
+    \item{\code{Achillea_atrata}}{}
+    \item{\code{Achillea_millefolium}}{}
+    \item{\code{Acinos_alpinus}}{}
+    \item{\code{Adenostyles_glabra}}{}
+    \item{\code{Aposeris_foetida}}{}
+    \item{\code{Arnica_montana}}{}
+    \item{\code{Aster_bellidiastrum}}{}
+    \item{\code{Bartsia_alpina}}{}
+    \item{\code{Bellis_perennis}}{}
+    \item{\code{Campanula_rotundifolia}}{}
+    \item{\code{Centaurea_montana}}{}
+    \item{\code{Cerastium_latifolium}}{}
+    \item{\code{Cruciata_laevipes}}{}
+    \item{\code{Doronicum_grandiflorum}}{}
+    \item{\code{Galium_album}}{}
     \item{\code{Galium_anisophyllon}}{}
-    \item{\code{Euphrasia_minima}}{}
-    \item{\code{Astrantia_major}}{}
-    \item{\code{Nardus_stricta}}{}
-    \item{\code{Ligusticum_mutellina}}{}
+    \item{\code{Galium_megalospermum}}{}
+    \item{\code{Gentiana_bavarica}}{}
+    \item{\code{Gentiana_lutea}}{}
+    \item{\code{Gentiana_purpurea}}{}
+    \item{\code{Gentiana_verna}}{}
+    \item{\code{Globularia_cordifolia}}{}
+    \item{\code{Globularia_nudicaulis}}{}
+    \item{\code{Gypsophila_repens}}{}
     \item{\code{Hieracium_lactucella}}{}
-    \item{\code{Chaerophyllum_hirsutum_aggr}}{}
-    \item{\code{Helianthemum_nummularium_sl}}{}
-    \item{\code{Scabiosa_lucida}}{}
-    \item{\code{Cerastium_fontanum_sl}}{}
-    \item{\code{Carex_pallescens}}{}
-    \item{\code{Plantago_alpina}}{}
-    \item{\code{Crepis_aurea}}{}
+    \item{\code{Homogyne_alpina}}{}
+    \item{\code{Hypochaeris_radicata}}{}
+    \item{\code{Leontodon_autumnalis}}{}
     \item{\code{Leontodon_helveticus}}{}
-    \item{\code{Bromus_erectus_sstr}}{}
+    \item{\code{Myosotis_alpestris}}{}
+    \item{\code{Myosotis_arvensis}}{}
+    \item{\code{Phyteuma_orbiculare}}{}
+    \item{\code{Phyteuma_spicatum}}{}
+    \item{\code{Plantago_alpina}}{}
+    \item{\code{Plantago_lanceolata}}{}
     \item{\code{Polygonum_bistorta}}{}
-    \item{\code{Saxifraga_oppositifolia}}{}
+    \item{\code{Polygonum_viviparum}}{}
+    \item{\code{Prunella_grandiflora}}{}
+    \item{\code{Rhinanthus_alectorolophus}}{}
+    \item{\code{Rumex_acetosa}}{}
+    \item{\code{Rumex_crispus}}{} 
+    \item{\code{Vaccinium_gaultherioides}}{}
+    \item{\code{Veronica_alpina}}{}
+    \item{\code{Veronica_aphylla}}{}
+    \item{\code{Agrostis_capillaris}}{}
+    \item{\code{Bromus_erectus_sstr}}{}
+    \item{\code{Campanula_scheuchzeri}}{}
+    \item{\code{Carex_sempervirens}}{}
+    \item{\code{Cynosurus_cristatus}}{}
+    \item{\code{Dactylis_glomerata}}{}
     \item{\code{Daucus_carota}}{}
-    \item{\code{Parnassia_palustris}}{}
+    \item{\code{Festuca_pratensis_sl}}{}
+    \item{\code{Geranium_sylvaticum}}{}
+    \item{\code{Leontodon_hispidus_sl}}{}
+    \item{\code{Potentilla_erecta}}{}
     \item{\code{Pritzelago_alpina_sstr}}{}
-    \item{\code{glm_Agrostis_capillaris}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Leontodon_hispidus_sl}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Dactylis_glomerata}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Trifolium_repens_sstr}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Geranium_sylvaticum}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Ranunculus_acris_sl}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Prunella_vulgaris}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Veronica_chamaedrys}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Taraxacum_officinale_aggr}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Plantago_lanceolata}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Potentilla_erecta}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Carex_sempervirens}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Soldanella_alpina}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Cynosurus_cristatus}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Campanula_scheuchzeri}}{GLM model for the species Daucus_carota.}
-    \item{\code{glm_Festuca_pratensis_sl}}{GLM model for the species Daucus_carota.}
+    \item{\code{Prunella_vulgaris}}{}
+    \item{\code{Ranunculus_acris_sl}}{}
+    \item{\code{Saxifraga_oppositifolia}}{}
+    \item{\code{Soldanella_alpina}}{}
+    \item{\code{Taraxacum_officinale_aggr}}{}
+    \item{\code{Trifolium_repens_sstr}}{}
+    \item{\code{Veronica_chamaedrys}}{}
+    \item{\code{Parnassia_palustris}}{}
+    \item{\code{glm_Agrostis_capillaris}}{GLM model for the species Agrostis_capillaris.}
+    \item{\code{glm_Leontodon_hispidus_sl}}{GLM model for the species Leontodon_hispidus_sl.}
+    \item{\code{glm_Dactylis_glomerata}}{GLM model for the species Dactylis_glomerata.}
+    \item{\code{glm_Trifolium_repens_sstr}}{GLM model for the species Trifolium_repens_sstr.}
+    \item{\code{glm_Geranium_sylvaticum}}{GLM model for the species Geranium_sylvaticum.}
+    \item{\code{glm_Ranunculus_acris_sl}}{GLM model for the species Ranunculus_acris_sl.}
+    \item{\code{glm_Prunella_vulgaris}}{GLM model for the species Prunella_vulgaris.}
+    \item{\code{glm_Veronica_chamaedrys}}{GLM model for the species Veronica_chamaedrys.}
+    \item{\code{glm_Taraxacum_officinale_aggr}}{GLM model for the species Taraxacum_officinale_aggr.}
+    \item{\code{glm_Plantago_lanceolata}}{GLM model for the species Plantago_lanceolata.}
+    \item{\code{glm_Potentilla_erecta}}{GLM model for the species Potentilla_erecta.}
+    \item{\code{glm_Carex_sempervirens}}{GLM model for the species Carex_sempervirens.}
+    \item{\code{glm_Soldanella_alpina}}{GLM model for the species Soldanella_alpina.}
+    \item{\code{glm_Cynosurus_cristatus}}{GLM model for the species Cynosurus_cristatus.}
+    \item{\code{glm_Campanula_scheuchzeri}}{GLM model for the species Campanula_scheuchzeri.}
+    \item{\code{glm_Festuca_pratensis_sl}}{GLM model for the species Festuca_pratensis_sl.}
     \item{\code{gbm_Bromus_erectus_sstr}}{GBM model for the species Bromus_erectus_sstr.}
     \item{\code{glm_Saxifraga_oppositifolia}}{GLM model for the species Saxifraga_oppositifolia.}
     \item{\code{glm_Daucus_carota}}{GLM model for the species Daucus_carota.}

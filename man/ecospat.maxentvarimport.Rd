@@ -24,7 +24,7 @@
 
 \examples{
 \dontrun{
-model <- get ("me.Leontodon_hispidus_sl", envir=ecospat.env)
+model <- get ("me.Achillea_millefolium", envir=ecospat.env)
 dfvar <- ecospat.testData[4:8]
 nperm <- 5
 ecospat.maxentvarimport (model, cal, nperm)}

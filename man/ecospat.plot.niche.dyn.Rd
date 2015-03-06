@@ -4,7 +4,7 @@
 
 \title{Niche Categories and Species Density}
 
-\description{Plot niche categories and species density.}
+\description{Plot niche categories and species density created by \code{ecospat.grid.clim.dyn}.}
 
 \usage{ecospat.plot.niche.dyn (z1,z2,quant,title,interest,
 colz1,colz2,colinter,colZ1,colZ2)}

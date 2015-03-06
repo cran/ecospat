@@ -25,7 +25,6 @@ Pellissier, L., K.A. Brathen, J. Pottier, C.F. Randin, P. Vittoz, A. Dubuis, N.G
 Guisan, A. and N. Zimmermann. 2000. Predictive habitat distribution models in ecology. \emph{Ecological Modelling}, \bold{135}:147-186
 }
 
-
 \examples{
 \dontrun{
 matrix <- ecospat.testData[c(9:16,54:57)]

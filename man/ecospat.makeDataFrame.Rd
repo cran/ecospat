@@ -53,28 +53,25 @@ ext=expl.var, tryf=5)}
 \examples{
 \dontrun{
 files <- list.files(path=paste(system.file(package="dismo"),
- '/ex', sep=''), pattern='grd', full.names=TRUE )
+                               '/ex', sep=''), pattern='grd', full.names=TRUE )
 predictors <- raster::stack(files[c(9,1:8)])   #file 9 has more NA values than
 # the other files, this is why we choose it as the first layer (see ?randomPoints)
-
-solanum <- ecospat.makeDataFrame("Solanum acaule",n=5000, expl.var=predictors, use.gbif=T)
-head(solanum)
 
 file <- paste(system.file(package="dismo"), "/ex/bradypus.csv", sep="")
 bradypus <- read.table(file, header=TRUE, sep=',')[,c(2,3,1)]
 head(bradypus)
 
-sol.aca <- solanum[solanum$Solanum.acaule==1,c('x','y')]
-sol.aca$Spec <- "Solanum.acaule"
-colnames(bradypus) <- colnames(sol.aca)
-spec.list <- rbind(bradypus, sol.aca)
+random.spec <- cbind(as.data.frame(randomPoints(predictors,50,extf=1)),species="randomSpec")
+colnames(random.spec)[1:2] <- c("lon","lat")
 
-df <- ecospat.makeDataFrame(spec.list, expl.var=predictors, n=5000 ,use.gbif=FALSE)
+spec.list <- rbind(bradypus, random.spec)
+
+df <- ecospat.makeDataFrame(spec.list, expl.var=predictors, n=5000)
 head(df)
-
-df.1 <- ecospat.makeDataFrame(spec.list, expl.var=predictors, n=5000 ,use.gbif=FALSE, mindist=1)
 
 plot(predictors[[1]])
 points(df[df$Bradypus.variegatus==1, c('x','y')])
-points(df.1[df.1$Bradypus.variegatus==1, c('x','y')], col="red")
-}}
+points(df[df$randomSpec==1, c('x','y')], col="red")
+
+}
+}

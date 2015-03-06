@@ -4,7 +4,7 @@
 
 \title{Plot Niche}
 
-\description{Plot a niche z created by \code{ecospat.grid.clim}.}
+\description{Plot a niche z created by \code{ecospat.grid.clim.dyn}.}
 
 \usage{ecospat.plot.niche (z, title, name.axis1, name.axis2, cor=F)}
 

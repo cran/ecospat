@@ -59,7 +59,7 @@ Constrperm<-function(presence, pred)
   }
   
   # relative probability matrix
-  pred<-pred/matsum  # divisione tra matrici per avere probabilità relative ogni valore è diviso per la somma totale delle probablità per ogni specie 
+  pred<-pred/matsum  # divisione tra matrici per avere probabilita relative ogni valore e diviso per la somma totale delle probablita per ogni specie 
   
   
   transpo<-t(as.matrix(presence))  # trasposizione della matrice 0/1 
@@ -69,17 +69,17 @@ Constrperm<-function(presence, pred)
   
   nullmat<-matrix (0,nrow=nbsites,ncol=nbsps,dimnames=noms)	# matrice vuota specie X sito 
   randr<-matrix(runif(nbsites*nbsps),nbsites)	# random number matrix - stesse dimensioni di proba # QUESTO E' IL PASSAGGIO DI RANDOMIZZAZIONE!
-  randr<-randr*pred #matrice con valori random ma pesati per le probabilità di ogni specie in ogni sito	
+  randr<-randr*pred #matrice con valori random ma pesati per le probabilita di ogni specie in ogni sito	
   
   for (i in 1: nbsps) # matrix randomisation
   {		
     a<-as.vector(randr[,i]) # per ogni specie un vettore 
     names(a)<-(1:nbsites) # nomi del vettore: un altro vettore di numeri continui
-    a<-sort(a)  # il vettore viene ordinato secondo probabilità crescente e con esso i numeri che sono i nomi di riga         
-    b<-as.numeric(names(a))	# un secondo vettore fatto solo dei nomi resi numerici e ordinati secondo le probabilità crescente di a 
+    a<-sort(a)  # il vettore viene ordinato secondo probabilita crescente e con esso i numeri che sono i nomi di riga         
+    b<-as.numeric(names(a))	# un secondo vettore fatto solo dei nomi resi numerici e ordinati secondo le probabilita crescente di a 
     x<-nbsites-nbocc[i]+1  # numero di siti non occupati dalla specie 
     
-    for(j in x:nbsites){   # mette tanti 1 quanti erano nella distribuzione originale per i valori piu alti di probabilità
+    for(j in x:nbsites){   # mette tanti 1 quanti erano nella distribuzione originale per i valori piu alti di probabilita
       r<-b[j]
       nullmat[r,i]<-1
     }    
@@ -102,11 +102,11 @@ SpeciesCooccurrenceStats<-function (presence)
   nbocc<- as.vector(apply(presence,MARGIN=2,sum))	# occurrences number for each species
   
   presence<-as.matrix(presence)       # sps trasformato in matrice 
-  coocc<-t(presence)%*%presence	      # produit matricielle de la matrice présence abscence par sa transposée donne le nb de checkboard unit pour chaque paire d'sps
-  nbspec=dim(coocc)[1]			# le nombre d'espèce= première dimension de la matrice obtenue
-  mat1<-array(apply(presence,MARGIN=2,sum),dim=c(nbsps,nbsps)) # création d'une matrice carrée de dimension n.spec avec les nb occ pr chaque sps (le mm chiffre sur tt la ligne)
+  coocc<-t(presence)%*%presence	      # produit matricielle de la matrice presence abscence par sa transposee donne le nb de checkboard unit pour chaque paire d'sps
+  nbspec=dim(coocc)[1]			# le nombre d'espece= premiere dimension de la matrice obtenue
+  mat1<-array(apply(presence,MARGIN=2,sum),dim=c(nbsps,nbsps)) # creation d'une matrice carree de dimension n.spec avec les nb occ pr chaque sps (le mm chiffre sur tt la ligne)
   mat2<-t(array(apply(presence,MARGIN=2,sum),dim=c(nbsps,nbsps))) # transpo de mat1
-  ### le calcul matriciel permet d'améliorer énormément la rapidité de calcul par l'ordi, par contre ca ne rend pas la compréhension très aisée:)
+  ### le calcul matriciel permet d'ameliorer enormement la rapidite de calcul par l'ordi, par contre ca ne rend pas la comprehension tres aisee:)
   Cscoreperspecies <- (mat1 - coocc)*(mat2 - coocc) # c-score per species
   
   df.synthesis1 <- data.frame(Col = rep(1:ncol(Cscoreperspecies),each=ncol(Cscoreperspecies)),  # dataframe creation to summarize results
@@ -115,8 +115,8 @@ SpeciesCooccurrenceStats<-function (presence)
   v.diago.inf <- c(rownames(df.synthesis1)[df.synthesis1[,1]>df.synthesis1[,2]],rownames(df.synthesis1)[df.synthesis1[,1]==df.synthesis1[,2]])
   df.synthesis <- df.synthesis1[-as.numeric(v.diago.inf),]
   
-  ### ci-dessus, création d'un dataframe en collant les numéros des colonnes et des lignes, les noms des espèces ainsi que les valeurs de scores
-  ### puis on enlève les paire d'espèces à double ainsi que la diagonale (2 mm sps)
+  ### ci-dessus, creation d'un dataframe en collant les numeros des colonnes et des lignes, les noms des especes ainsi que les valeurs de scores
+  ### puis on enleve les paire d'especes a double ainsi que la diagonale (2 mm sps)
   
   Cscore<-mean(df.synthesis[,5]) # c-score on all matrix   c-score sur toute la matrice = moyenne des c-score pour chaque paire d'sps
   
@@ -158,7 +158,7 @@ ecospat.cons_Cscore<- function(presence,pred,nbpermut,outpath)
       #cat(z, "\n",append =T)
       degenerated<-TRUE
       while (degenerated==TRUE){ # looking for a matrix without degenerated sites
-        random.distrib.matrix<-Constrperm(presence,pred) # null matrix (0/1) column sum is the true species n° obs
+        random.distrib.matrix<-Constrperm(presence,pred) # null matrix (0/1) column sum is the true species n obs
         sumSites<- as.vector(apply(random.distrib.matrix,MARGIN=2,sum)) # row sum: sites richness 
         for (i in 1:nbsites){
           ifelse(sumSites[i]==0,degenerated<-TRUE,degenerated<-FALSE)		
@@ -169,7 +169,7 @@ ecospat.cons_Cscore<- function(presence,pred,nbpermut,outpath)
       
       synthRnd<-Rnd$synth_lt	
       
-      CooccProb[,z] <- synthRnd[,5] #qui si crea la matrice con i valori di c-score delle coppie di specie delle comunità nulle 
+      CooccProb[,z] <- synthRnd[,5] #qui si crea la matrice con i valori di c-score delle coppie di specie delle comunita nulle 
     }
     
     ## for the whole community
@@ -187,7 +187,7 @@ ecospat.cons_Cscore<- function(presence,pred,nbpermut,outpath)
     
     ## for species pairs
     vec.Cscore.pairs<-as.vector(apply(CooccProb,MARGIN=1,mean)) # Mean of null communities C-score for any pair of species
-    mat_pval <- matrix(0,nrow(synthRnd),5) # matrice per raccogliere i valori di probabilità per ogni coppia di C-score 
+    mat_pval <- matrix(0,nrow(synthRnd),5) # matrice per raccogliere i valori di probabilita per ogni coppia di C-score 
     mat_pval[,1] <- synthObs[,5] # Observed C-score in the first column
     mat_pval[,2] <- vec.Cscore.pairs # Mean of simulated C-scores in the 2nd column
     

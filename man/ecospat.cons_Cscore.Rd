@@ -12,7 +12,7 @@ Co-occurrence Analysis & Environmentally Constrained Null Models. The function t
     \item{outpath}{Path to specify where to save the results.}
         }
 \details{An environmentally constrained approach to null models will provide a more robust evaluation of species associations by facilitating the distinction between mutually exclusive processes that may shape species distributions and community assembly.
-The format required for imput databases: a plots (rows) x species (columns) matrix. Input matrices should have column names (species names) and row names (sampling plots).
+The format required for input databases: a plots (rows) x species (columns) matrix. Input matrices should have column names (species names) and row names (sampling plots).
 NOTE: a SES that is greater than 2 or less than -2 is statistically significant with a tail probability of less than 0.05 (Gotelli & McCabe 2002 - Ecology)}
 
 \value{Returns the C-score index for the observed community (ObsCscoreTot), the mean of C-score for the simulated communities (SimCscoreTot), p.value (PValTot) and standardized effect size (SES.Tot). It also saves a table in the specified path where the same 
@@ -27,8 +27,8 @@ metrics are calculated for each species pair (only the table with species pairs 
 
 \examples{
 \dontrun{
-presence<-ecospat.testData[c(9:24)]
-pred<- ecospat.testData[65:82]
+presence<-ecospat.testData[c(53,62,58,70,61,66,65,71,69,43,63,56,68,57,55,60,54,67,59,64)]
+pred<-ecospat.testData[c(73:92)]
 nbpermut<-10000
 outpath<-getwd()
 ecospat.cons_Cscore(presence, pred, nbpermut, outpath)

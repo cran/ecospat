@@ -14,5 +14,5 @@ ecospat.binary.model <-function(Pred, Sp.occ.xy, Percentage)
   ############################
   Threshold.Com <- c(0, Threshold, 0, Threshold, 1000, 1)
   Threshold.Com.b <- matrix (Threshold.Com, ncol=3, byrow=T)
-  Pred.binary <- raster::reclassify (Pred,Threshold.Com.b)
+  Pred.binary <- reclassify (Pred,Threshold.Com.b)
 }

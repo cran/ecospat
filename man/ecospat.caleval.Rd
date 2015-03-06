@@ -30,7 +30,7 @@ disaggregate=0, pseudoabs=0, npres=0, replace=F)}
 
 \examples{
 data<-ecospat.testData
-caleval<-ecospat.caleval (data = ecospat.testData[9], xy = data[2:3], row.num = 1:nrow(data), 
+caleval<-ecospat.caleval (data = ecospat.testData[53], xy = data[2:3], row.num = 1:nrow(data), 
 nrep = 2, ratio = 0.7, disaggregate = 0.2, pseudoabs = 100, npres = 10, replace = FALSE)
 caleval
 }

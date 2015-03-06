@@ -39,14 +39,14 @@
   
   Jaccard: this index is a widely used metric of community similarity.}
 
-\references{J. Pottier, A. Dubuis, L. Pellissier, L. Maiorano, L. Rossier, C.F. Randin, P. Vittoz and A. Guisan. 2013. The accuracy of plant assemblage prediction from species distribution models varies along environmental gradients. \emph{Global Ecology and Biogeography}, \bold{22}, 52-63.}
+\references{Pottier, J., A. Dubuis, L. Pellissier, L. Maiorano, L. Rossier, C.F. Randin, P. Vittoz and A. Guisan. 2013. The accuracy of plant assemblage prediction from species distribution models varies along environmental gradients. \emph{Global Ecology and Biogeography}, \bold{22}, 52-63.}
 
-\author{Julien Pottier \email{julien.pottier@clermont.inra.fr} with contribution of Daniel Scherrer \email{daniel.scherrer@unil.ch}}
+\author{Julien Pottier \email{julien.pottier@clermont.inra.fr} with contribution of Daniel Scherrer \email{daniel.scherrer@unil.ch}, Anne Dubuis \email{anne.dubuis@gmail.com} and Manuela D'Amen \email{manuela.damen@unil.ch}}
 
 \examples{
 \dontrun{
-eval<-ecospat.testData[c(9:24,53,55,56,58)]
-pred<-ecospat.testData[c(59:78)]
+eval<-Data[c(53,62,58,70,61,66,65,71,69,43,63,56,68,57,55,60,54,67,59,64)]
+pred<-Data[c(73:92)]
 
 ecospat.SSDMeval (eval, pred, proba=TRUE, ntir=10)
 }}

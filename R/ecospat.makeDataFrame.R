@@ -17,7 +17,7 @@ ecospat.makeDataFrame<-function(spec.list,
                           ext=expl.var,
                           tryf=5){
 
-library(rgdal)
+requireNamespace("rgdal")
 
 ######################################################
 ###  sample the Pseudo-Absences
@@ -28,7 +28,7 @@ if(is.null(PApoint)){
       PApoint<-data.frame(randomPoints(mask=expl.var, n, if(class(spec.list)!="character"){p=spec.list[,-3]}, tryf, ext=ext))
       }else{ 
       if(class(ext)=="RasterStack"|class(ext)=="RasterLayer"){
-      ext <- raster::rasterToPolygons(ext[[1]])                                      
+      ext <- rasterToPolygons(ext[[1]])                                      
       }                                                                       
       PApoint2 <- data.frame(spsample(ext, n, type))}                           
   }
@@ -42,7 +42,33 @@ if(is.null(PApoint)){
 ######################################################
 ###  Species data
 ######################################################
-  
+if (class(spec.list) != "character"){colnames(spec.list)[1:3] <- c("x","y","Spec")}
+
+if (is.null(PApoint)) {
+  if (type == "random") {
+    n<-n*1.5
+    PApoint <- data.frame(randomPoints(mask = expl.var,
+                                       n, if (class(spec.list) != "character") {
+                                         p = spec.list[, -3]
+                                       }, tryf, ext = ext))
+    test<-extract(expl.var,PApoint[,1:2])
+    n<-(n/1.5)
+    PApoint<-PApoint[complete.cases(test),][1:n,]
+  }
+  else {
+    if (class(ext) == "RasterStack" | class(ext) == "RasterLayer") {
+      ext <- rasterToPolygons(ext[[1]])
+    }
+    PApoint2 <- data.frame(spsample(ext, n, type))
+  }
+}
+PApoint$cell.id <- cellFromXY(expl.var, PApoint)
+PApoint <- PApoint[!duplicated(PApoint$cell.id), ]
+PApoint$PA <- 1
+colnames(PApoint) <- c("x", "y", colnames(PApoint[3:4]))
+
+
+
   if(class(spec.list)!="character"){
   #spec.list$Spec <- gsub("\\.", "_", spec.list$Spec)
   #spec.list$Spec <- gsub(" ", "_", spec.list$Spec)

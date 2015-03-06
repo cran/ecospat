@@ -26,8 +26,8 @@
 \examples{
 \dontrun{
 ecospat.cv.example()
-ecospat.varpart (model.1= get ("glm.Agrostis_capillaris", envir=ecospat.env), 
-model.2= get ("glm.Leontodon_hispidus_sl", envir=ecospat.env), 
-model.12= get ("glm.Leontodon_hispidus_sl", envir=ecospat.env))
+ecospat.varpart (model.1= get ("glm.Achillea_atrata", envir=ecospat.env), 
+model.2= get ("glm.Achillea_millefolium", envir=ecospat.env), 
+model.12= get ("glm.Achillea_millefolium", envir=ecospat.env))
 }
 }

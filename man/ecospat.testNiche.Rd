@@ -6,7 +6,7 @@
 
 \title{Test data for the niche overlap analysis}
 
-\description{Data frame that contains occurrence sites for each species, long, lat and the name of the species at each site.).}
+\description{Data frame that contains occurrence sites for each species, long, lat and the name of the species at each site.}
 
 \usage{data(ecospat.testNiche)}
 
@@ -18,7 +18,7 @@
     \item{\code{Spp}}{Scientific name of the species used in the exmaple: Bromus_erectus_sstr, Saxifraga_oppositifolia, Daucus_carota and Pritzelago_alpina_sstr.}
 }
 }
-\details{   
+\details{
 List of occurence sites for the species.
 }
 

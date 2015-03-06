@@ -23,11 +23,12 @@
 #library(randomForest)
 
 # Input dataset format
-# Columns 1-2: long and lat geographic coordinates 
-# Columns 3-7: Predicting variables
-# Columns 8-9: Species presences / absences
+# Columns 2-3: long and lat geographic coordinates 
+# Columns 4-8: Predicting variables
+# Columns 9-10: Species presences / absences
 
 ecospat.env <- new.env ()
+globalVariables ("ecospat.testData")
 
 
 ######
@@ -141,7 +142,7 @@ glm.gam.gbm.me.rf.fit.model  <- function(data,p.pred,p.resp,me.args=c('-J','-P',
   for (i in p.resp:ncol(data)) # LOOP FOR MULTIPLE SPECIES
   {	
     
-    #Â i = p.resp # LOOP FOR MULTIPLE SPECIES
+    #i = p.resp # LOOP FOR MULTIPLE SPECIES
     
     cat("Computations", (i-p.resp+1),"for species ",names(data[i]),"is starting now...", "\n",append = F)
     cat(".............", "\n",append = F)
@@ -1145,7 +1146,7 @@ p.pred <- 4
 # Position of the first species (i.e. respone variable)
 p.resp <- 9
 
-# Argument for Maxent calibration
+#Argument for Maxent calibration
 me.args=c('-J','-P','threshold=false','product=false','quadratic=false','linear=false')
 
 # Input and Output folders
@@ -1181,7 +1182,7 @@ glm.gam.gbm.me.rf.fit.model(data,p.pred,p.resp,me.args=c('-J',
 		########################
 		
 		# STRATIFIED-CV FOR GLM
-		df.out.cv.glm.agroca <- ecospat.cv.glm(get("glm.Agrostis_capillaris",envir = ecospat.env), K = 10, cv.lim = 10, jack.knife = F)
+		df.out.cv.glm.achatr <- ecospat.cv.glm(get("glm.Achillea_atrata",envir = ecospat.env), K = 10, cv.lim = 10, jack.knife = F)
    
    
 		#permut.glm.saopp <- ecospat.permut.glm(glm.SAOPP,100)	
@@ -1192,14 +1193,14 @@ glm.gam.gbm.me.rf.fit.model(data,p.pred,p.resp,me.args=c('-J',
 		########################          
                      
 		# STRATIFIED-CV FOR GAM
-		df.out.cv.gam.agroca <- ecospat.cv.gam(get("gam.Agrostis_capillaris",envir = ecospat.env), K = 10, cv.lim = 10, jack.knife = F)
+		df.out.cv.gam.achatr <- ecospat.cv.gam(get("gam.Achillea_atrata",envir = ecospat.env), K = 10, cv.lim = 10, jack.knife = F)
 
 		########################
 		# GBM MODEL EVALUATION #
 		########################
 		
 		# STRATIFIED-CV FOR GBM
-		df.out.cv.gbm.agroca <- ecospat.cv.gbm(get("gbm.Agrostis_capillaris",envir = ecospat.env), data, K = 10, cv.lim = 10, jack.knife = F)
+		df.out.cv.gbm.achatr <- ecospat.cv.gbm(get("gbm.Achillea_atrata",envir = ecospat.env), data, K = 10, cv.lim = 10, jack.knife = F)
 		
     	#######################
 		# ME MODEL EVALUATION #
@@ -1208,13 +1209,13 @@ glm.gam.gbm.me.rf.fit.model(data,p.pred,p.resp,me.args=c('-J',
 		# STRATIFIED-CV FOR ME
 		# df.out.cv.me <- ecospat.cv.me(df.tmp.input,names(df.tmp.input[1]),names(df.tmp.input[2:ncol(df.tmp.input)]),K=10, cv.lim = 10, jack.knife = F)
 		
-		df.out.cv.me.agroca <- ecospat.cv.me(data, names(data)[9], names(data)[4:8], K = 10, cv.lim = 10, jack.knife = F)
+		df.out.cv.me.achatr <- ecospat.cv.me(data, names(data)[9], names(data)[4:8], K = 10, cv.lim = 10, jack.knife = F)
 		
 	   	#######################
 		# RF MODEL EVALUATION #
 		#######################
 		
 		# STRATIFIED-CV FOR RF
-		df.out.cv.rf.agroca <- ecospat.cv.rf(get("rf.Agrostis_capillaris",envir = ecospat.env), data[, c(9, 4:8)], K = 10, cv.lim = 10, jack.knife = F)
+		df.out.cv.rf.achatr <- ecospat.cv.rf(get("rf.Achillea_atrata",envir = ecospat.env), data[, c(9, 4:8)], K = 10, cv.lim = 10, jack.knife = F)
 }
 

@@ -4,7 +4,7 @@
 
 \title{Dynamic Occurrence Densities Grid}
 
-\description{Create a grid with occurrence densities from SDM predictions. This is the dynamic version of \code{EcoSpat.grid.clim}.}
+\description{Create a grid with occurrence densities along one or two gridded environmental gradients.}
 
 \usage{ecospat.grid.clim.dyn (glob, glob1, sp, R, th.sp, th.env)}
 
@@ -27,7 +27,7 @@
 \references{Broennimann, O., M.C. Fitzpatrick, P.B. Pearman, B. Petitpierre, L. Pellissier, N.G. Yoccoz, W. Thuiller, M.J. Fortin, C. Randin, N.E. Zimmermann, C.H. Graham and A. Guisan. 2012. Measuring ecological niche overlap from occurrence and spatial environmental data. \emph{Global Ecology and Biogeography}, \bold{21}:481-497.
 
 
-Petitpierre, B., C. Kueffer, O. Broennimann, C. Randin, C. Daehler and A. Guisan. 2012. Climatic niche shifts are rare among terrestrial plant invaders.  \emph{Science}, \bold{335}:1344-1348.
+Petitpierre, B., C. Kueffer, O. Broennimann, C. Randin, C. Daehler and A. Guisan. 2012. Climatic niche shifts are rare among terrestrial plant invaders. \emph{Science}, \bold{335}:1344-1348.
 }
 
 

@@ -25,11 +25,11 @@
 
 Pearman, P.B., C.F. Randin, O. Broennimann, P. Vittoz, W.O. van der Knaap, R. Engler, G. Le Lay, N.E. Zimmermann and A. Guisan. 2008. Prediction of plant species distributions across six millennia. \emph{Ecology Letters}, \bold{11}, 357-369.}
 
-\author{Christophe Randin \email{christophe.randin@unibas.ch}}
+\author{Christophe Randin \email{christophe.randin@unibas.ch} and Antoine Guisan \email{antoine.guisan@unil.ch}}
     
 \examples{
 \dontrun{
 rf <- ecospat.cv.rf(get("rf.Agrostis_capillaris", envir = ecospat.env), 
-ecospat.testData[, c(9, 4:8)], K = 10, cv.lim = 10, jack.knife = FALSE)
+ecospat.testData[, c(53, 4:8)], K = 10, cv.lim = 10, jack.knife = FALSE)
 }
 }
