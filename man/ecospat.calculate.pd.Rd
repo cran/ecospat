@@ -40,10 +40,10 @@ Options of type:
 
 \examples{
 fpath <- system.file("extdata", "ecospat.testTree.tre", package="ecospat")
-tree<-read.tree(fpath)
+tree <-read.tree(fpath)
 data <- ecospat.testData[9:52] 
 
-pd<- ecospat.calculate.pd(tree, data, method = "spanning", type = "species", root = FALSE, 
+pd <- ecospat.calculate.pd(tree, data, method = "spanning", type = "species", root = FALSE, 
 average = FALSE, verbose = TRUE )
 
 plot(pd)

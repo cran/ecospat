@@ -28,9 +28,9 @@ Creates a graphical plot of the predicted to expected ratio along the suitabilit
 \author{Blaise Petitpierre \email{bpetitpierre@gmail.com} and Frank Breiner \email{frank.breiner@unil.ch}}
 
 \references{
-Boyce, M.S.,  P.R. Vernier, S.E. Nielsen and  F.K.A. Schmiegelow. 2002. Evaluating resource selection functions. \emph{Ecol. Model.}, \bold{157}, 281-300.
+Boyce, M.S., P.R. Vernier, S.E. Nielsen and F.K.A. Schmiegelow. 2002. Evaluating resource selection functions. \emph{Ecol. Model.}, \bold{157}, 281-300.
 
-Hirzel, A.H.,  G. Le Lay, V. Helfer, C. Randin and A. Guisan. 2006. Evaluating the ability of habitat suitability models to predict species presences. \emph{Ecol. Model.}, \bold{199}, 142-152.}
+Hirzel, A.H., G. Le Lay, V. Helfer, C. Randin and A. Guisan. 2006. Evaluating the ability of habitat suitability models to predict species presences. \emph{Ecol. Model.}, \bold{199}, 142-152.}
 
 \examples{
 obs <- (ecospat.testData$glm_Saxifraga_oppositifolia

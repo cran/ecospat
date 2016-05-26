@@ -4,7 +4,7 @@
 
 \alias{ecospat.testNiche}
 
-\title{Test data for the niche overlap analysis}
+\title{Test Data For The Niche Overlap Analysis}
 
 \description{Data frame that contains occurrence sites for each species, long, lat and the name of the species at each site.}
 

@@ -1,12 +1,12 @@
-\name{ecospat.SSDMeval}
+\name{ecospat.CommunityEval}
 
-\alias{ecospat.SSDMeval}
+\alias{ecospat.CommunityEval}
 
-\title{SSDM evaluation}
+\title{Community Evaluation}
 
 \description{Calculate several indices of accuracy of community predictions.}
 
-\usage{ecospat.SSDMeval (eval, pred, proba, ntir)}
+\usage{ecospat.CommunityEval (eval, pred, proba, ntir)}
 
 \arguments{
   \item{eval}{A matrix of observed presence-absence (ideally independent from the dataset used to fit species distribution models) of the species with n rows for the sites and s columns for the species.}
@@ -41,12 +41,14 @@
 
 \references{Pottier, J., A. Dubuis, L. Pellissier, L. Maiorano, L. Rossier, C.F. Randin, P. Vittoz and A. Guisan. 2013. The accuracy of plant assemblage prediction from species distribution models varies along environmental gradients. \emph{Global Ecology and Biogeography}, \bold{22}, 52-63.}
 
-\author{Julien Pottier \email{julien.pottier@clermont.inra.fr} with contribution of Daniel Scherrer \email{daniel.scherrer@unil.ch}, Anne Dubuis \email{anne.dubuis@gmail.com} and Manuela D'Amen \email{manuela.damen@unil.ch}}
+\author{Julien Pottier \email{julien.pottier@clermont.inra.fr} with contribution of 
+Daniel Scherrer \email{daniel.scherrer@unil.ch}, Anne Dubuis \email{anne.dubuis@gmail.com} 
+and Manuela D'Amen \email{manuela.damen@unil.ch}}
 
 \examples{
 \dontrun{
-eval<-Data[c(53,62,58,70,61,66,65,71,69,43,63,56,68,57,55,60,54,67,59,64)]
-pred<-Data[c(73:92)]
+eval <- Data[c(53,62,58,70,61,66,65,71,69,43,63,56,68,57,55,60,54,67,59,64)]
+pred <- Data[c(73:92)]
 
-ecospat.SSDMeval (eval, pred, proba=TRUE, ntir=10)
+ecospat.CommunityEval (eval, pred, proba=TRUE, ntir=10)
 }}

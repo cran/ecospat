@@ -35,10 +35,10 @@ Petitpierre, B., C. Kueffer, O. Broennimann, C. Randin, C. Daehler and A. Guisan
 
 \examples{
 \dontrun{
-spp<-ecospat.testNiche
-clim<-ecospat.testData[2:8]
+spp <- ecospat.testNiche
+clim <- ecospat.testData[2:8]
 
-occ.sp_test<-na.exclude(ecospat.sample.envar(dfsp=spp,colspxy=2:3,colspkept=1:3,dfvar=clim,
+occ.sp_test <- na.exclude(ecospat.sample.envar(dfsp=spp,colspxy=2:3,colspkept=1:3,dfvar=clim,
 colvarxy=1:2,colvar="all",resolution=25))
 
 occ.sp<-cbind(occ.sp_test,spp[,4]) #add species names
@@ -50,39 +50,39 @@ sp.nbocc<-c()
 for (i in 1:length(sp.list)){sp.nbocc<-c(sp.nbocc,length(which(occ.sp[,1] == sp.list[i])))} 
 #calculate the nb of occurences per species
 
-sp.list<-sp.list[sp.nbocc>4] # remove species with less than 5 occurences
-nb.sp<-length(sp.list) #nb of species
+sp.list <- sp.list[sp.nbocc>4] # remove species with less than 5 occurences
+nb.sp <- length(sp.list) #nb of species
 ls()
 # selection of variables to include in the analyses 
 # try with all and then try only worldclim Variables
-Xvar<-c(3:7)
-nvar<-length(Xvar)
+Xvar <- c(3:7)
+nvar <- length(Xvar)
 
 #number of interation for the tests of equivalency and similarity
-iterations<-100
+iterations <- 100
 #resolution of the gridding of the climate space
-R=100
+R <- 100
 #################################### PCA-ENVIRONMENT ##################################
 data<-rbind(occ.sp[,Xvar+1],clim[,Xvar]) 
-w<-c(rep(0,nrow(occ.sp)),rep(1,nrow(clim)))
-pca.cal <-dudi.pca(data, row.w = w, center = TRUE, scale = TRUE, scannf = FALSE, nf = 2)
+w <- c(rep(0,nrow(occ.sp)),rep(1,nrow(clim)))
+pca.cal <- dudi.pca(data, row.w = w, center = TRUE, scale = TRUE, scannf = FALSE, nf = 2)
 
 ####### selection of species ######
 sp.list
-sp.combn<-combn(1:2,2)
+sp.combn <- combn(1:2,2)
 
 for(i in 1:ncol(sp.combn)) {
-  row.sp1<-which(occ.sp[,1] == sp.list[sp.combn[1,i]]) # rows in data corresponding to sp1
-  row.sp2<-which(occ.sp[,1] == sp.list[sp.combn[2,i]]) # rows in data corresponding to sp2
-  name.sp1<-sp.list[sp.combn[1,i]]
-  name.sp2<-sp.list[sp.combn[2,i]]
+  row.sp1 <- which(occ.sp[,1] == sp.list[sp.combn[1,i]]) # rows in data corresponding to sp1
+  row.sp2 <- which(occ.sp[,1] == sp.list[sp.combn[2,i]]) # rows in data corresponding to sp2
+  name.sp1 <- sp.list[sp.combn[1,i]]
+  name.sp2 <- sp.list[sp.combn[2,i]]
   # predict the scores on the axes
-  scores.clim<- pca.cal$li[(nrow(occ.sp)+1):nrow(data),]  #scores for global climate
-  scores.sp1<- pca.cal$li[row.sp1,]					#scores for sp1
-  scores.sp2<- pca.cal$li[row.sp2,]					#scores for sp2
+  scores.clim <- pca.cal$li[(nrow(occ.sp)+1):nrow(data),]  #scores for global climate
+  scores.sp1 <- pca.cal$li[row.sp1,]					#scores for sp1
+  scores.sp2 <- pca.cal$li[row.sp2,]					#scores for sp2
 }
 # calculation of occurence density and test of niche equivalency and similarity 
-z1<- ecospat.grid.clim.dyn(scores.clim, scores.clim, scores.sp1,R=100)
-z2<- ecospat.grid.clim.dyn(scores.clim, scores.clim, scores.sp2,R=100)
+z1 <- ecospat.grid.clim.dyn(scores.clim, scores.clim, scores.sp1,R=100)
+z2 <- ecospat.grid.clim.dyn(scores.clim, scores.clim, scores.sp2,R=100)
 }}
 

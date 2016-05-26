@@ -30,5 +30,5 @@ Marmion, M., M. Parviainen, M. Luoto, R.K. Heikkinen andW.  Thuiller. 2009. Eval
 
 \examples{
 x <- ecospat.testData[c(92,96)]
-mean<-ecospat.Epred (x, w=rep(1,ncol(x)), th=0.5)
+mean <- ecospat.Epred (x, w=rep(1,ncol(x)), th=0.5)
 }

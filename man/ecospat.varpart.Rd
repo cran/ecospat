@@ -2,7 +2,7 @@
 
 \alias{ecospat.varpart}
 
-\title{Variation Partitioning for GLM or GAM}
+\title{Variation Partitioning For GLM Or GAM}
 
 \description{Perform variance partitioning for binomial GLM or GAM based on the deviance of two groups or predicting variables.}
 

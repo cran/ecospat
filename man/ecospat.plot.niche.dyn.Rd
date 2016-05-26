@@ -7,7 +7,8 @@
 \description{Plot niche categories and species density created by \code{ecospat.grid.clim.dyn}.}
 
 \usage{ecospat.plot.niche.dyn (z1,z2,quant,title,interest,
-colz1,colz2,colinter,colZ1,colZ2)}
+colz1,colz2,colinter,colZ1,colZ2,name.axis1,name.axis2)}
+
 
 \arguments{
   \item{z1}{A gridclim object for the native distribution.}
@@ -20,6 +21,8 @@ colz1,colz2,colinter,colZ1,colZ2)}
   \item{colinter}{The color used to depict overlap area.}
   \item{colZ1}{The color used to delimit the native extent.}
   \item{colZ2}{The color used to delimit the invaded extent.}
+  \item{name.axis1}{A label for the first axis.}
+  \item{name.axis2}{A label for the second axis}
 }
 
 \author{Blaise Petitpierre \email{bpetitpierre@gmail.com}}

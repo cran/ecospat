@@ -30,7 +30,7 @@ Pearman, P.B., C.F. Randin, O. Broennimann, P. Vittoz, W.O. van der Knaap, R. En
 
 \examples{
 \dontrun{
-gbm<-ecospat.cv.gbm (gbm.obj= get ("gbm.Agrostis_capillaris", envir=ecospat.env), 
+gbm <- ecospat.cv.gbm (gbm.obj= get ("gbm.Agrostis_capillaris", envir=ecospat.env), 
 ecospat.testData, K=10, cv.lim=10, jack.knife=FALSE)
 }
 }

@@ -4,12 +4,12 @@
 
 \alias{ecospat.testData}
 
-\title{Test data for the ecospat library }
+\title{Test Data For The Ecospat package}
 
 \description{Data frame that contains vegetation plots data: presence records of 50 species, a set of environmental variables (topo-climatic) and SDM predictions for some species in the Western Swiss Alps (Canton de Vaud, Switzerland).
 }
 
-\usage{data(ecospat.testData)}
+\usage{data("ecospat.testData")}
 
 \format{A data frame with 300 observations on the following 96 variables.
   \describe{
@@ -121,15 +121,15 @@ Two modelling techniques were used to produce the SDMs: generalized linear model
 
 \references{Guisan, A. 1997. Distribution de taxons vegetaux dans un environnement alpin: Application de modelisations statistiques dans un systeme d'information geographique. PhD Thesis, University of Geneva, Switzerland.
 
-Guisan, A., J.P. Theurillat. & F. Kienast. 1998. Predicting the potential distribution of plant species in an alpine environment. \emph{Journal of Vegetation Science}, \bold{9}, 65-74.
+Guisan, A., J.P. Theurillat. and F. Kienast. 1998. Predicting the potential distribution of plant species in an alpine environment. \emph{Journal of Vegetation Science}, \bold{9}, 65-74.
 
-Guisan, A. & J.P. Theurillat. 2000. Assessing alpine plant vulnerability to climate change: A modeling perspective. \emph{Integrated Assessment}, \bold{1}, 307-320.
+Guisan, A. and J.P. Theurillat. 2000. Assessing alpine plant vulnerability to climate change: A modeling perspective. \emph{Integrated Assessment}, \bold{1}, 307-320.
 
-Guisan, A. & J.P. Theurillat. 2000. Equilibrium modeling of alpine plant distribution and climate change : How far can we go? \emph{Phytocoenologia}, \bold{30}(3-4), 353-384.
+Guisan, A. and J.P. Theurillat. 2000. Equilibrium modeling of alpine plant distribution and climate change : How far can we go? \emph{Phytocoenologia}, \bold{30}(3-4), 353-384.
 
-Dubuis A., J. Pottier, V. Rion, L. Pellissier, J.P. Theurillat & A. Guisan. 2011. Predicting spatial patterns of plant species richness: A comparison of direct macroecological and species stacking approaches. \emph{Diversity and Distributions}, \bold{17}, 1122-1131.
+Dubuis A., J. Pottier, V. Rion, L. Pellissier, J.P. Theurillat and A. Guisan. 2011. Predicting spatial patterns of plant species richness: A comparison of direct macroecological and species stacking approaches. \emph{Diversity and Distributions}, \bold{17}, 1122-1131.
 
-Zimmermann, N.E., T.C. Edwards, G.G Moisen, T.S. Frescino & J.A. Blackard. 2007. Remote sensing-based predictors improve distribution models of rare, early successional and broadleaf tree species in Utah. \emph{Journal of Applied Ecology} \bold{44}, 1057-1067.
+Zimmermann, N.E., T.C. Edwards, G.G Moisen, T.S. Frescino and J.A. Blackard. 2007. Remote sensing-based predictors improve distribution models of rare, early successional and broadleaf tree species in Utah. \emph{Journal of Applied Ecology} \bold{44}, 1057-1067.
 }
 
 \author{Antoine Guisan \email{antoine.guisan@unil.ch}, Anne Dubuis \email{anne.dubuis@gmail.com} and Valeria Di Cola \email{valeria.dicola@unil.ch}
@@ -137,6 +137,7 @@ Zimmermann, N.E., T.C. Edwards, G.G Moisen, T.S. Frescino & J.A. Blackard. 2007.
 
 \examples{
 data(ecospat.testData)
+str(ecospat.testData)
 dim(ecospat.testData)
 names(ecospat.testData)
 }

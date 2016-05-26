@@ -1,6 +1,6 @@
 \name{ecospat.cons_Cscore}
 \alias{ecospat.cons_Cscore}
-\title{Constrained co-occurrence analysis.}
+\title{Constrained Co-Occurrence Analysis.}
 \description{
 Co-occurrence Analysis & Environmentally Constrained Null Models. The function tests for non-random patterns of species co-occurrence in a presence-absence matrix. It calculates the C-score index for the whole community and for each species pair. An environmental constraint is applied during the generation of the null communities.
 }
@@ -18,18 +18,18 @@ NOTE: a SES that is greater than 2 or less than -2 is statistically significant 
 \value{Returns the C-score index for the observed community (ObsCscoreTot), the mean of C-score for the simulated communities (SimCscoreTot), p.value (PValTot) and standardized effect size (SES.Tot). It also saves a table in the specified path where the same 
 metrics are calculated for each species pair (only the table with species pairs with significant p.values is saved in this version). }
 
-\author{Anne Dubuis \email{anne.dubuis@gmail.com} and Manuela D'Amen \email{manuela.damen@unil.ch}}
+\author{Anne Dubuis \email{anne.dubuis@gmail.com} and Manuela D`Amen \email{manuela.damen@unil.ch}}
 
-\references{Gotelli, N.J. and D.J. McCabe. 2002. Species co-occurrence: a meta-analysis of JM Diamond's assembly rules model. \emph{Ecology}, \bold{83}, 2091-2096.
+\references{Gotelli, N.J. and D.J. McCabe. 2002. Species co-occurrence: a meta-analysis of JM Diamond`s assembly rules model. \emph{Ecology}, \bold{83}, 2091-2096.
 
         Peres-Neto, P.R., J.D. Olden and D.A. Jackson. 2001. Environmentally constrained null models: site suitability as occupancy criterion. \emph{Oikos}, \bold{93}, 110-120.
         }
 
 \examples{
 \dontrun{
-presence<-ecospat.testData[c(53,62,58,70,61,66,65,71,69,43,63,56,68,57,55,60,54,67,59,64)]
-pred<-ecospat.testData[c(73:92)]
-nbpermut<-10000
-outpath<-getwd()
+presence <- ecospat.testData[c(53,62,58,70,61,66,65,71,69,43,63,56,68,57,55,60,54,67,59,64)]
+pred <- ecospat.testData[c(73:92)]
+nbpermut <- 10000
+outpath <- getwd()
 ecospat.cons_Cscore(presence, pred, nbpermut, outpath)
 }}

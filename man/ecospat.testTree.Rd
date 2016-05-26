@@ -4,7 +4,7 @@
 
 \alias{ecospat.testTree}
 
-\title{Test tree for the ecospat library }
+\title{Test Tree For The Ecospat package}
 
 \description{The tree object is a phylogenetic tree of class 'phylo' (see read.tree) that contains data of 50 angiosperm species from the Western Swiss Alps.}
 
@@ -67,13 +67,13 @@
 \references{Ndiribe, C., L. Pellissier, S. Antonelli, A. Dubuis, J. Pottier, P. Vittoz, A. Guisan and N. Salamin. 2013. Phylogenetic plant community structure along elevation is lineage specific. \emph{Ecology and Evolution}, \bold{3}, 4925-4939.
 }
 
-\author{Charlotte Ndiribe \email{charlotte.ndiribe@unil.ch}, Nicolas Salamin \email{nicolas.salamin@unil.ch} and Antoine Guisane \email{antoine.guisan@unil.ch}
+\author{Charlotte Ndiribe \email{charlotte.ndiribe@unil.ch}, Nicolas Salamin \email{nicolas.salamin@unil.ch} and Antoine Guisan \email{antoine.guisan@unil.ch}
 
 }
 
 
 \examples{
 fpath <- system.file("extdata", "ecospat.testTree.tre", package="ecospat")
-tree<-read.tree(fpath)
+tree <- read.tree(fpath)
 plot(tree)
 }

@@ -76,13 +76,16 @@ ecospat.niche.equivalency.test<-function(z1,z2,rep){
 
 R<-length(z1$x)
 l<-list()
-dev.new(2,2,pointsize = 12); par(mar=c(0,0,0,0));
+#dev.new(2,2,pointsize = 12); par(mar=c(0,0,0,0));
 
 obs.o<-ecospat.niche.overlap(z1,z2,cor=T)									#observed niche overlap
 sim.o<-data.frame(matrix(nrow=rep,ncol=2))							#empty list of random niche overlap
 names(sim.o)<-c("D","I")
+pb = txtProgressBar(min = 0, max = rep, initial = 0) 
+
 for (i in 1:rep){
-	plot.new(); text(0.5,0.5,paste("runs to go:",rep-i+1))
+	setTxtProgressBar(pb,i)
+	#plot.new(); text(0.5,0.5,paste("runs to go:",rep-i+1))
 	
 	if(is.null(z1$y)){ #overlap on one axis
 	
@@ -123,7 +126,8 @@ for (i in 1:rep){
 	sim.o$I[i]<-o.i$I
 }
 
-dev.off()
+#dev.off()
+close(pb)
 l$sim<-sim.o	# storage
 l$obs<-obs.o	# storage
 l$p.D<- min((sum(sim.o$D <= obs.o$D ) + 1),(sum(sim.o$D >= obs.o$D ) + 1))*2/(length(sim.o$D) + 1) 	# storage of p-values
@@ -134,76 +138,122 @@ return(l)
 
 ##################################################################################################
 
-ecospat.niche.similarity.test<-function(z1,z2,rep,one.sided=T){
+#new argument= "rand.type"
 
-R<-length(z1$x)
-dev.new(2,2,pointsize = 12); par(mar=c(0,0,0,0));						# countdown window
-l<-list()
-obs.o<-ecospat.niche.overlap(z1,z2,cor=T) 								#observed niche overlap
-sim.o<-data.frame(matrix(nrow=rep,ncol=2))						#empty list of random niche overlap
-names(sim.o)<-c("D","I")
-
-for (k in 1:rep){
-	plot.new(); text(0.5,0.5,paste("similarity tests:","\n","runs to go:",rep-k+1))	# countdown
-	
-	if(is.null(z2$y)){
-		center<-which(z2$z.cor==1,arr.ind=T) 					# define the centroid of the observed niche
-		Z<-z2$Z/max(z2$Z)
-		rand.center<-sample(1:R,size=1,replace=F,prob=Z)				# randomly (weighted by environment prevalence) define the new centroid for the niche
-		
-		xshift<-rand.center-center							# shift on x axis
-		z2.sim<-z2
-		z2.sim$z.cor<-rep(0,R)								# set intial densities to 0
-		for(i in 1:R){
-			i.trans<-i+xshift
-			if(i.trans>R|i.trans<0)next()						# densities falling out of the env space are not considered
-			z2.sim$z.cor[i.trans]<-z2$z.cor[i]					# shift of pixels
-		}
-		z2.sim$z.cor<-(z2$Z!=0)*1*z2.sim$z.cor 					# remove densities out of existing environments
-	}
-
-	if(!is.null(z2$y)){
-		centroid<-which(z2$z.cor==1,arr.ind=T)[1,] 				# define the centroid of the observed niche
-		Z<-z2$Z/max(z2$Z)
-		rand.centroids<-which(Z>0,arr.ind=T)					# all pixels with existing environments in the study area
-		weight<-Z[Z>0]
-		rand.centroid<-rand.centroids[sample(1:nrow(rand.centroids)
-			,size=1,replace=F,prob=weight),]					# randomly (weighted by environment prevalence) define the new centroid for the niche
-		xshift<-rand.centroid[1]-centroid[1]					# shift on x axis
-		yshift<-rand.centroid[2]-centroid[2]					# shift on y axis
-		z2.sim<-z2
-		z2.sim$z.cor<-matrix(rep(0,R*R),ncol=R,nrow=R)				# set intial densities to 0
-		for(i in 1:R){
-			for(j in 1:R){
-				i.trans<-i+xshift
-				j.trans<-j+yshift
-				if(i.trans>R|i.trans<0)next()					# densities falling out of the env space are not considered
-				if(j.trans>R|j.trans<0)next()
-				z2.sim$z.cor[i.trans,j.trans]<-z2$z.cor[i,j]		# shift of pixels
-			}
-		}
-		z2.sim$z.cor<-(z2$Z!=0)*1*z2.sim$z.cor 					# remove densities out of existing environments
-	}
-	o.i<-ecospat.niche.overlap(z1,z2.sim,cor=T)							# overlap between random and observed niches
-	sim.o$D[k]<-o.i$D										# storage of overlaps
-	sim.o$I[k]<-o.i$I
-}
-dev.off()
-l$sim<-sim.o											# storage
-l$obs<-obs.o											# storage
-
-if (one.sided)
-{
-  l$p.D<- (sum(sim.o$D >= obs.o$D ) + 1)/(length(sim.o$D) + 1)	# storage of p-values one sided test
-  l$p.I<- (sum(sim.o$I >= obs.o$D ) + 1)/(length(sim.o$I) + 1)	# storage of p-values one sided test
-}
-else
-{
-  l$p.D<- min((sum(sim.o$D <= obs.o$D ) + 1),(sum(sim.o$D >= obs.o$D ) + 1))*2/(length(sim.o$D) + 1)	# storage of p-values
-  l$p.I<- min((sum(sim.o$I <= obs.o$I ) + 1),(sum(sim.o$I >= obs.o$I ) + 1))*2/(length(sim.o$I) + 1)	# storage of p-values
-}
-
-return(l)
+ecospat.niche.similarity.test<-function(z1,z2,rep,one.sided=T,rand.type=1){
+  
+  R<-length(z1$x)
+  #dev.new(2,2,pointsize = 12); par(mar=c(0,0,0,0));  					# countdown window
+  l<-list()
+  obs.o<-ecospat.niche.overlap(z1,z2,cor=T) 								#observed niche overlap
+  sim.o<-data.frame(matrix(nrow=rep,ncol=2))						#empty list of random niche overlap
+  names(sim.o)<-c("D","I")
+  
+  pb = txtProgressBar(min = 0, max = rep, initial = 0) 
+  
+  for (k in 1:rep){
+    setTxtProgressBar(pb,k)
+    
+    #plot.new(); text(0.5,0.5,paste("similarity tests:","\n","runs to go:",rep-k+1))	# countdown
+    
+    if(is.null(z1$y)&is.null(z2$y)){
+      if(rand.type==1){							# if rand.type = 1, both z1 and z2 are randomly shifted, if rand.type =2, only z2 is randomly shifted
+        center.z1<-which(z1$z.cor==1,arr.ind=T) 			# define the centroid of the observed niche
+        Z1<-z1$Z/max(z1$Z)
+        rand.center.z1<-sample(1:R,size=1,replace=F,prob=Z1)		# randomly (weighted by environment prevalence) define the new centroid for the niche
+        
+        xshift.z1<-rand.center.z1-center.z1				# shift on x axis
+        z1.sim<-z1
+        z1.sim$z.cor<-rep(0,R)						# set intial densities to 0
+        for(i in 1:R){
+          i.trans.z1<-i+xshift.z1
+          if(i.trans.z1>R|i.trans.z1<0)next()			# densities falling out of the env space are not considered
+          z1.sim$z.cor[i.trans.z1]<-z1$z.cor[i]			# shift of pixels
+        }
+        z1.sim$z.cor<-(z1$Z!=0)*1*z1.sim$z.cor 				# remove densities out of existing environments
+      }
+      
+      center.z2<-which(z2$z.cor==1,arr.ind=T) 				# define the centroid of the observed niche
+      Z2<-z2$Z/max(z2$Z)
+      rand.center.z2<-sample(1:R,size=1,replace=F,prob=Z2)			# randomly (weighted by environment prevalence) define the new centroid for the niche
+      
+      xshift.z2<-rand.center.z2-center.z2					# shift on x axis
+      z2.sim<-z2
+      z2.sim$z.cor<-rep(0,R)							# set intial densities to 0
+      for(i in 1:R){
+        i.trans.z2<-i+xshift.z2
+        if(i.trans.z2>R|i.trans.z2<0)next()				# densities falling out of the env space are not considered
+        z2.sim$z.cor[i.trans.z2]<-z2$z.cor[i]				# shift of pixels
+      }
+      z2.sim$z.cor<-(z2$Z!=0)*1*z2.sim$z.cor 					# remove densities out of existing environments
+    }
+    
+    if(!is.null(z2$y)&!is.null(z1$y)){				
+      if(rand.type==1){							# if rand.type = 1, both z1 and z2 are randomly shifted, if rand.type =2, only z2 is randomly shifted
+        centroid.z1<-which(z1$z.cor==1,arr.ind=T)[1,] 			# define the centroid of the observed niche
+        Z1<-z1$Z/max(z1$Z)
+        rand.centroids.z1<-which(Z1>0,arr.ind=T)					# all pixels with existing environments in the study area
+        weight.z1<-Z1[Z1>0]
+        rand.centroid.z1<-rand.centroids.z1[sample(1:nrow(rand.centroids.z1)
+                                                   ,size=1,replace=F,prob=weight.z1),]					# randomly (weighted by environment prevalence) define the new centroid for the niche
+        xshift.z1<-rand.centroid.z1[1]-centroid.z1[1]					# shift on x axis
+        yshift.z1<-rand.centroid.z1[2]-centroid.z1[2]					# shift on y axis
+        z1.sim<-z1
+        z1.sim$z.cor<-matrix(rep(0,R*R),ncol=R,nrow=R)				# set intial densities to 0
+        for(i in 1:R){
+          for(j in 1:R){
+            i.trans.z1<-i+xshift.z1
+            j.trans.z1<-j+yshift.z1
+            if(i.trans.z1>R|i.trans.z1<0)next()					# densities falling out of the env space are not considered
+            if(j.trans.z1>R|j.trans.z1<0)next()
+            z1.sim$z.cor[i.trans.z1,j.trans.z1]<-z1$z.cor[i,j]		# shift of pixels
+          }
+        }
+        z1.sim$z.cor<-(z1$Z!=0)*1*z1.sim$z.cor 					# remove densities out of existing environments
+      }
+      centroid.z2<-which(z2$z.cor==1,arr.ind=T)[1,] 				# define the centroid of the observed niche
+      Z2<-z2$Z/max(z2$Z)
+      rand.centroids.z2<-which(Z2>0,arr.ind=T)					# all pixels with existing environments in the study area
+      weight.z2<-Z2[Z2>0]
+      rand.centroid.z2<-rand.centroids.z2[sample(1:nrow(rand.centroids.z2)
+                                                 ,size=1,replace=F,prob=weight.z2),]					# randomly (weighted by environment prevalence) define the new centroid for the niche
+      xshift.z2<-rand.centroid.z2[1]-centroid.z2[1]					# shift on x axis
+      yshift.z2<-rand.centroid.z2[2]-centroid.z2[2]					# shift on y axis
+      z2.sim<-z2
+      z2.sim$z.cor<-matrix(rep(0,R*R),ncol=R,nrow=R)				# set intial densities to 0
+      for(i in 1:R){
+        for(j in 1:R){
+          i.trans.z2<-i+xshift.z2
+          j.trans.z2<-j+yshift.z2
+          if(i.trans.z2>R|i.trans.z2<0)next()					# densities falling out of the env space are not considered
+          if(j.trans.z2>R|j.trans.z2<0)next()
+          z2.sim$z.cor[i.trans.z2,j.trans.z2]<-z2$z.cor[i,j]		# shift of pixels
+        }
+      }
+      z2.sim$z.cor<-(z2$Z!=0)*1*z2.sim$z.cor 					# remove densities out of existing environments
+    }
+    if(rand.type==1){o.i<-ecospat.niche.overlap(z1.sim,z2.sim,cor=T)}
+    if(rand.type==2){o.i<-ecospat.niche.overlap(z1,z2.sim,cor=T)}			# overlap between random and observed niches
+    sim.o$D[k]<-o.i$D										# storage of overlaps
+    sim.o$I[k]<-o.i$I
+  }
+  #dev.off()
+  close(pb)
+  l$sim<-sim.o											# storage
+  l$obs<-obs.o											# storage
+  
+  if (one.sided)
+  {
+    l$p.D<- (sum(sim.o$D >= obs.o$D ) + 1)/(length(sim.o$D) + 1)	# storage of p-values one sided test
+    l$p.I<- (sum(sim.o$I >= obs.o$D ) + 1)/(length(sim.o$I) + 1)	# storage of p-values one sided test
+  }
+  else
+  {
+    l$p.D<- min((sum(sim.o$D <= obs.o$D ) + 1),(sum(sim.o$D >= obs.o$D ) + 1))*2/(length(sim.o$D) + 1)	# storage of p-values
+    l$p.I<- min((sum(sim.o$I <= obs.o$I ) + 1),(sum(sim.o$I >= obs.o$I ) + 1))*2/(length(sim.o$I) + 1)	# storage of p-values
+  }
+  
+  return(l)
 }
 
 ##################################################################################################

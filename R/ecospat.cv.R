@@ -1,7 +1,7 @@
 ##################################################
 ##################################################
 ##												##									
-##	GLM / GAM / GBM / ME / RF MODEL FIT LOOP	##
+##	GLM / #GAM / GBM / ME / RF MODEL FIT LOOP	##
 ##												##									
 ##################################################
 ##################################################
@@ -35,133 +35,133 @@ globalVariables ("ecospat.testData")
 # Auxiliary function for examples.
 ######
 
-glm.gam.gbm.me.rf.fit.model  <- function(data,p.pred,p.resp,me.args=c('-J','-P','threshold=false','product=false','quadratic=false','linear=false'),
+glm.gbm.me.rf.fit.model  <- function(data,p.pred,p.resp,me.args=c('-J','-P','threshold=false','product=false','quadratic=false','linear=false'),
                                          me.path= outpath,outpath)
 {
-  
-  ###############
-  ## SCOPE.GAM ##
-  ###############
-  
-  scope.gam <- function(data.pred,smoother= "s", degree="4")
-  {
-    scope.list.gam <- as.list(data.pred)
-    names(scope.list.gam) <- colnames(data.pred)
-    for(i in 1:ncol(data.pred)) 
-    {
-      if (is.factor(data.pred[[i]])==T)
-      {
-        junk <- c("1")
-        junk <- c(junk, paste(colnames(data.pred[i]), sep = ""))
-        junk <- eval(parse(text = paste("~", paste(junk, collapse = "+"))))
-        scope.list.gam[[i]] <- junk
-      } else if (is.factor(data.pred[[i]])==F)	{
-        junk <- c("1")
-        junk <- c(junk, paste(smoother,"(", colnames(data.pred[i]),",",degree,")", sep = ""))
-        junk <- eval(parse(text = paste("~", paste(junk, collapse = "+"))))
-        scope.list.gam[[i]] <- junk	
-        
-      }	
-    }
-    return(scope.list.gam)
-  }
-  
-  
-  
+
+  # ###############
+  # ## SCOPE.GAM ##
+  # ###############
+  # 
+  # scope.gam <- function(data.pred,smoother= "s", degree="4")
+  # {
+  #   scope.list.gam <- as.list(data.pred)
+  #   names(scope.list.gam) <- colnames(data.pred)
+  #   for(i in 1:ncol(data.pred))
+  #   {
+  #     if (is.factor(data.pred[[i]])==T)
+  #     {
+  #       junk <- c("1")
+  #       junk <- c(junk, paste(colnames(data.pred[i]), sep = ""))
+  #       junk <- eval(parse(text = paste("~", paste(junk, collapse = "+"))))
+  #       scope.list.gam[[i]] <- junk
+  #     } else if (is.factor(data.pred[[i]])==F)	{
+  #       junk <- c("1")
+  #       junk <- c(junk, paste(smoother,"(", colnames(data.pred[i]),",",degree,")", sep = ""))
+  #       junk <- eval(parse(text = paste("~", paste(junk, collapse = "+"))))
+  #       scope.list.gam[[i]] <- junk
+  # 
+  #     }
+  #   }
+  #   return(scope.list.gam)
+  # }
+
+
+
   sp.names <- colnames(data[p.resp:ncol(data)])
-  
+
   n.pred <- p.resp-p.pred
   rownames(data) <- 1:nrow(data)
-  
+
   # GLM FORMULA
-  for (k in (p.pred):(p.resp-1)) 
-  { 
-    if (k == p.pred && is.factor(data[,k])==FALSE) 
+  for (k in (p.pred):(p.resp-1))
+  {
+    if (k == p.pred && is.factor(data[,k])==FALSE)
     {
-      fmula.pred.glm <- as.vector(paste("pol(",names(data[k]),",2)",sep=""),mode="character")	
+      fmula.pred.glm <- as.vector(paste("pol(",names(data[k]),",2)",sep=""),mode="character")
     }
-    else if (k == p.pred && is.factor(data[,k])==TRUE) 
-    {	
-      fmula.pred.glm <- as.vector(paste(names(data[k]),sep=""),mode="character")		
+    else if (k == p.pred && is.factor(data[,k])==TRUE)
+    {
+      fmula.pred.glm <- as.vector(paste(names(data[k]),sep=""),mode="character")
     }
-    else if (is.factor(data[,k])==FALSE) 
+    else if (is.factor(data[,k])==FALSE)
     {
       fmula.pred.glm <- paste(fmula.pred.glm," + pol(",names(data[k]),",2)",sep="")
-      
+
     }
-    else if (is.factor(data[,k])==TRUE) 
+    else if (is.factor(data[,k])==TRUE)
     {
-      
-      fmula.pred.glm <- paste(fmula.pred.glm," + ",names(data[k]),sep="")	
-    }	
-  }		
-  
-  # GAM FORMULA	
-  for (k in (p.pred):(p.resp-1)) 
-  { 
-    if (k == p.pred && is.factor(data[,k])==FALSE) 
-    {
-      fmula.pred.gam <- as.vector(paste("s(", names(data[k]),", 4)",sep=""),mode="character")	
+
+      fmula.pred.glm <- paste(fmula.pred.glm," + ",names(data[k]),sep="")
     }
-    else if (k == p.pred && is.factor(data[,k])==TRUE) 
-    {	
-      fmula.pred.gam <- as.vector(paste(names(data[k]),sep=""),mode="character")		
+  }
+
+  # # GAM FORMULA
+  # for (k in (p.pred):(p.resp-1))
+  # {
+  #   if (k == p.pred && is.factor(data[,k])==FALSE)
+  #   {
+  #     fmula.pred.gam <- as.vector(paste("s(", names(data[k]),", 4)",sep=""),mode="character")
+  #   }
+  #   else if (k == p.pred && is.factor(data[,k])==TRUE)
+  #   {
+  #     fmula.pred.gam <- as.vector(paste(names(data[k]),sep=""),mode="character")
+  #   }
+  #   else if (is.factor(data[,k])==FALSE)
+  #   {
+  #     fmula.pred.gam <- paste(fmula.pred.gam," + s(", names(data[k]),", 4)",sep="")
+  # 
+  #   }
+  #   else if (is.factor(data[,k])==TRUE)
+  #   {
+  # 
+  #     fmula.pred.gam <- paste(fmula.pred.gam," + ",names(data[k]),sep="")
+  #   }
+  # }
+  # 
+  # gam.scope.mod <- scope.gam(data[,p.pred:(p.resp-1)],smoother= "s", degree="4")
+
+  # GBM-BOOSTING FORMULA
+  for (k in (p.pred):(p.resp-1))
+  {
+    if (k == p.pred)
+    {
+      fmula.pred.gbm <- as.vector(paste(names(data[k]),sep=""),mode="character")
+    } else
+    {
+
+      fmula.pred.gbm <- paste(fmula.pred.gbm," + ",names(data[k]),sep="")
     }
-    else if (is.factor(data[,k])==FALSE) 
-    {
-      fmula.pred.gam <- paste(fmula.pred.gam," + s(", names(data[k]),", 4)",sep="")
-      
-    }
-    else if (is.factor(data[,k])==TRUE) 
-    {
-      
-      fmula.pred.gam <- paste(fmula.pred.gam," + ",names(data[k]),sep="")	
-    }	
-  }		
-  
-  gam.scope.mod <- scope.gam(data[,p.pred:(p.resp-1)],smoother= "s", degree="4")
-  
-  # GBM-BOOSTING FORMULA	
-  for (k in (p.pred):(p.resp-1)) 
-  { 
-    if (k == p.pred) 
-    {	
-      fmula.pred.gbm <- as.vector(paste(names(data[k]),sep=""),mode="character")		
-    } else 
-    {
-      
-      fmula.pred.gbm <- paste(fmula.pred.gbm," + ",names(data[k]),sep="")	
-    }	
-  }		
-  
+  }
+
   ##########################################################################################################################################################
-  
+
   ##################################
   ## LOOP FOR SPECIES COMPUTATION ##
   ##################################
   for (i in p.resp:ncol(data)) # LOOP FOR MULTIPLE SPECIES
-  {	
-    
+  {
+
     #i = p.resp # LOOP FOR MULTIPLE SPECIES
-    
+
     cat("Computations", (i-p.resp+1),"for species ",names(data[i]),"is starting now...", "\n",append = F)
     cat(".............", "\n",append = F)
-    
+
     name.tmp.sp <- names(data[i])
-    
-    
+
+
     ########################
     ## MODELS CALIBRATION ##
     ########################
-    
+
     #df.tmp.input <- na.omit(data[,c(i,p.pred:(p.resp-1))])
     df.tmp.input <<- na.omit(data[,c(i,p.pred:(p.resp-1))])
-    
+
     row.names(df.tmp.input) <- 1:dim(df.tmp.input)[1]
-    
+
     #df.tmp.input <- na.exclude(df.tmp.input)
     df.tmp.input <<- na.exclude(df.tmp.input)
-    
+
     ###########
     # GLM FIT #
     ###########
@@ -169,85 +169,85 @@ glm.gam.gbm.me.rf.fit.model  <- function(data,p.pred,p.resp,me.args=c('-J','-P',
     cat("> calibration", "\n",append = F)
     glm.tmp.step <- step(glm(eval(parse(text = paste(name.tmp.sp, "~",fmula.pred.glm, collapse = ""))),
                              data=df.tmp.input,family=binomial,maxit = 100),trace = F,direction="both")
-    
-    
+
+
     #assign(paste("glm.",name.tmp.sp,sep=""),glm.tmp.step,envir = .GlobalEnv)
     assign(paste("glm.",name.tmp.sp,sep=""),glm.tmp.step,envir = ecospat.env)
-    
-    
-    ###########
-    # GAM FIT #
-    ###########
-    
-    cat("GAM", "\n",append = F)
-    cat("> calibration", "\n",append = F)	 	
-    gam.tmp.step <- step.gam(gam(eval(parse(text = paste(paste(name.tmp.sp), "~ 1", collapse = ""))),
-                                 data=df.tmp.input,family=binomial),trace = F,scope=gam.scope.mod,direction="both",control = gam.control(maxit = 50,bf.maxit = 50))
-    
-    assign(paste("gam.",name.tmp.sp,sep=""),gam.tmp.step,envir = ecospat.env)
-    
-    
+
+
+    # ###########
+    # # GAM FIT #
+    # ###########
+    # 
+    # cat("GAM", "\n",append = F)
+    # cat("> calibration", "\n",append = F)
+    # gam.tmp.step <- step.gam(gam(eval(parse(text = paste(paste(name.tmp.sp), "~ 1", collapse = ""))),
+    #                              data=df.tmp.input,family=binomial),trace = F,scope=gam.scope.mod,direction="both",control = gam.control(maxit = 50,bf.maxit = 50))
+    # 
+    # assign(paste("gam.",name.tmp.sp,sep=""),gam.tmp.step,envir = ecospat.env)
+
+
     ###########
     # GBM FIT #
     ###########
-    
+
     cat("GBM", "\n",append = F)
     cat("> calibration", "\n",append = F)
-    
+
     gbm.fmula <- eval(parse(text = paste(paste(name.tmp.sp), "~",fmula.pred.gbm, collapse = "")))
-    
-    
-    
+
+
+
     gbm.tmp <- gbm(gbm.fmula, data=df.tmp.input, var.monotone = rep(0,length =  n.pred), n.trees = 2000, interaction.depth = 3,
                    n.minobsinnode = 10,shrinkage = 0.01, bag.fraction = 0.5, train.fraction = 1, verbose = F, cv.folds = 10)
-    
+
     best.itr.temp <- gbm.perf(gbm.tmp, method="cv", plot.it=F)
-    
+
     gbm.tmp.cal <-gbm.more(gbm.tmp, n.new.trees = best.itr.temp, data=df.tmp.input)
-    
+
     assign(paste("gbm.",name.tmp.sp,sep=""),gbm.tmp.cal,envir = ecospat.env)
-    
-    
+
+
     ##########
     # ME FIT #
     ##########
-    
+
     cat("ME", "\n",append = F)
     cat("> calibration", "\n",append = F)
-    
+
     Sys.setenv(NOAWT=TRUE)
     jar <- paste(system.file(package="dismo"), "/java/maxent.jar", sep='')
     #library(dismo)
-    
+
     me.tmp <-maxent(df.tmp.input[,2:ncol(df.tmp.input)],as.vector(df.tmp.input[,1]),path=me.path)
-    
+
     assign(paste("me.",name.tmp.sp,sep=""),me.tmp,envir = ecospat.env)
-    
-    
+
+
     ##########
     # RF FIT #
     ##########
-    
+
     cat("RF", "\n",append = F)
     cat("> calibration", "\n",append = F)
-    
+
     rf.tmp <- randomForest(x=df.tmp.input[,2:ncol(df.tmp.input)], y=as.factor(df.tmp.input[,1]), ntree=1000, importance=TRUE)
-    
+
     assign(paste("rf.",name.tmp.sp,sep=""),rf.tmp,envir = ecospat.env)
-    
-    #########################################################################################################################################             
-    
+
+    #########################################################################################################################################
+
     cat(".............", "\n",append = F)
-    cat(".............", "\n",append = F)	
-    
+    cat(".............", "\n",append = F)
+
     rm(df.tmp.input)
-    # END SPECIES LOOP		
+    # END SPECIES LOOP
   }
-  # END SPECIES LOOP	
-  
+  # END SPECIES LOOP
+
   # END FUNCTION
 }
-# END FUNCTION	
+# END FUNCTION
 
 
 
@@ -404,135 +404,135 @@ ecospat.cv.glm <- function(glm.obj, K=10, cv.lim = 10, jack.knife = F)
 
 
 
-ecospat.cv.gam <- function(gam.obj, K=10, cv.lim = 10, jack.knife = F)
-{
-  # CONTROL IF THE NUMBER OF OBSERVATIONS IS SUFFICIENT
-  data.cv <- gam.obj$data
-  
-  gam.obj <- gam(eval(gam.obj$formula),data=data.cv)
-  
-  
-  n <- nrow(data.cv)
-  if ((K > n) || (K <= 1))
-    stop("K outside allowable range")
-  
-  n.0 <- nrow(data.cv[gam.obj$y==0,])
-  n.1 <- nrow(data.cv[gam.obj$y>0,])
-  
-  
-  
-  #################################
-  ## Jack-Knife Cross-validation ##
-  ################################# 
-  
-  
-  if (jack.knife  == F && n.1 < cv.lim || jack.knife  == F && n.1 < K || jack.knife  == T)
-  {
-    K <- nrow(data.cv)
-    cat("K has been set to ",K," -> Jack-Knife Cross-validation enabled!","\n",append = F)	
-    
-    for (i in 1:K)
-    {
-      temp.gam <- update(gam.obj, data = data.cv[-i,])
-      
-      if (i == 1)
-      {
-        vect.id <- i
-        vect.predicted <- as.double(predict(temp.gam, data.cv[i,],type="response"))
-      } else if (i > 1)
-      {	
-        vect.id <- append(vect.id, i, after=length(vect.id))
-        vect.predicted <- append(vect.predicted, as.double(predict(temp.gam, data.cv[i,],type="response")), after=length(vect.predicted))
-      }		
-      
-    }
-    df.tmp.res <-  data.frame(cbind(id=round(as.numeric(vect.id),digits=0),predictions=as.numeric(vect.predicted))[order(vect.id),])
-    df.res <- data.frame(id=df.tmp.res[,1],obs=as.vector(gam.obj$y),predictions=df.tmp.res[,2])
-    
-  } else 
-  {	
-    id.0 <- as.vector(row.names(data.cv[gam.obj$y==0,]),mode = "numeric")
-    K.0 <- K
-    K.lst.0 <- round(K)
-    kvals.0 <- unique(round(n.0/(1:floor(n.0/2))))
-    temp.0 <- abs(kvals.0 - K.lst.0)
-    if (!any(temp.0 == 0))
-    {
-      K.lst.0 <- kvals.0[temp.0 == min(temp.0)][1]
-    }
-    if (K.lst.0 != K.0)
-    {
-      cat("K.0 has been set to", K.lst.0, "\n",append = F)
-    }
-    
-    id.1 <- as.vector(row.names(data.cv[gam.obj$y>0,]), mode = "numeric")
-    K.1 <- K
-    K.lst.1 <- round(K)
-    kvals.1 <- unique(round(n.1/(1:floor(n.1/2))))
-    temp.1 <- abs(kvals.1 - K.lst.1)
-    if (!any(temp.1 == 0))
-    {
-      K.lst.1 <- kvals.1[temp.1 == min(temp.1)][1]
-    }
-    if (K.lst.1 != K.1)
-    {
-      cat("K.1 has been set to", K.lst.1, "\n",append = F)
-    }
-    if (K.lst.0 != K.lst.1)
-    {
-      cat("P/A stratifications have not the same values!", "\n",append = F)
-      min.K <- min(K.lst.0,K.lst.1)
-      K.lst.0 <- min.K
-      K.lst.1 <- min.K
-    }
-    
-    cat("K has been finally set to",K.lst.0, "\n",append = F)
-    K.lst <- K.lst.0
-    
-    # P/A STRATIFICATION
-    
-    # ABSENCE STRATIFICATION
-    f.0 <- ceiling(n.0/K.lst.0)
-    s.0 <- sample(rep(1:K.lst.0,f.0), n.0)
-    
-    # PRESENCE STRATIFICATION
-    f.1 <- ceiling(n.1/K.lst.1)
-    s.1 <- sample(rep(1:K.lst.1,f.1), n.1)
-    
-    # RESPONSE PREDICTION
-    
-    for (i in 1:K.lst)
-    {
-      j.out <- id.0[(s.0 == i)]
-      j.out <- append(j.out, id.1[(s.1 == i)], after=length(j.out)) 
-      j.out <- sort(j.out)
-      j.in <- id.0[(s.0 != i)]
-      j.in <- append(j.in, id.1[(s.1 != i)], after=length(j.in)) 
-      j.in <- sort(j.in)
-      gam.cal <- update(gam.obj, data = data.cv[j.in, , drop = FALSE])
-      gam.val <- predict(gam.cal, data.cv[j.out, , drop = FALSE], type = "response")
-      
-      if (i == 1)
-      {
-        vect.id <- j.out
-        vect.predicted <- as.vector(gam.val)
-      } else if (i > 1)
-      {	
-        vect.id <- append(vect.id, j.out, after=length(vect.id))
-        vect.predicted <- append(vect.predicted, as.vector(gam.val), after=length(vect.predicted))
-      }	
-    }
-    df.tmp.res <-  data.frame(cbind(id=round(as.numeric(vect.id),digits=0),predictions=as.numeric(vect.predicted))[order(vect.id),])
-    
-    df.res <- data.frame(id=df.tmp.res[,1],obs=as.vector(gam.obj$y),predictions=df.tmp.res[,2])
-    
-    
-  }	
-  df.res[df.res[,3]>1,3] <- 1
-  df.res[df.res[,3]<0,3] <- 0
-  
-  return(df.res)
-}
+# ecospat.cv.gam <- function(gam.obj, K=10, cv.lim = 10, jack.knife = F)
+# {
+#   # CONTROL IF THE NUMBER OF OBSERVATIONS IS SUFFICIENT
+#   data.cv <- gam.obj$data
+#   
+#   gam.obj <- gam(eval(gam.obj$formula),data=data.cv)
+#   
+#   
+#  n <- nrow(data.cv)
+#   if ((K > n) || (K <= 1))
+#     stop("K outside allowable range")
+#   
+#   n.0 <- nrow(data.cv[gam.obj$y==0,])
+#   n.1 <- nrow(data.cv[gam.obj$y>0,])
+#   
+#   
+#   
+#   #################################
+#   ## Jack-Knife Cross-validation ##
+#   ################################# 
+#   
+#   
+#  if (jack.knife  == F && n.1 < cv.lim || jack.knife  == F && n.1 < K || jack.knife  == T)
+#  {
+#    K <- nrow(data.cv)
+#    cat("K has been set to ",K," -> Jack-Knife Cross-validation enabled!","\n",append = F)	
+#    
+#    for (i in 1:K)
+#    {
+#      temp.gam <- update(gam.obj, data = data.cv[-i,])
+#      
+#       if (i == 1)
+#       {
+#         vect.id <- i
+#         vect.predicted <- as.double(predict(temp.gam, data.cv[i,],type="response"))
+#       } else if (i > 1)
+#       {	
+#         vect.id <- append(vect.id, i, after=length(vect.id))
+#         vect.predicted <- append(vect.predicted, as.double(predict(temp.gam, data.cv[i,],type="response")), after=length(vect.predicted))
+#       }		
+#       
+#     }
+#     df.tmp.res <-  data.frame(cbind(id=round(as.numeric(vect.id),digits=0),predictions=as.numeric(vect.predicted))[order(vect.id),])
+#     df.res <- data.frame(id=df.tmp.res[,1],obs=as.vector(gam.obj$y),predictions=df.tmp.res[,2])
+#     
+#   } else 
+#   {	
+#     id.0 <- as.vector(row.names(data.cv[gam.obj$y==0,]),mode = "numeric")
+#     K.0 <- K
+#     K.lst.0 <- round(K)
+#     kvals.0 <- unique(round(n.0/(1:floor(n.0/2))))
+#     temp.0 <- abs(kvals.0 - K.lst.0)
+#     if (!any(temp.0 == 0))
+#     {
+#       K.lst.0 <- kvals.0[temp.0 == min(temp.0)][1]
+#     }
+#     if (K.lst.0 != K.0)
+#     {
+#       cat("K.0 has been set to", K.lst.0, "\n",append = F)
+#     }
+#     
+#     id.1 <- as.vector(row.names(data.cv[gam.obj$y>0,]), mode = "numeric")
+#     K.1 <- K
+#     K.lst.1 <- round(K)
+#     kvals.1 <- unique(round(n.1/(1:floor(n.1/2))))
+#     temp.1 <- abs(kvals.1 - K.lst.1)
+#     if (!any(temp.1 == 0))
+#     {
+#       K.lst.1 <- kvals.1[temp.1 == min(temp.1)][1]
+#     }
+#     if (K.lst.1 != K.1)
+#     {
+#       cat("K.1 has been set to", K.lst.1, "\n",append = F)
+#     }
+#     if (K.lst.0 != K.lst.1)
+#     {
+#       cat("P/A stratifications have not the same values!", "\n",append = F)
+#       min.K <- min(K.lst.0,K.lst.1)
+#       K.lst.0 <- min.K
+#       K.lst.1 <- min.K
+#     }
+#     
+#     cat("K has been finally set to",K.lst.0, "\n",append = F)
+#     K.lst <- K.lst.0
+#     
+#     # P/A STRATIFICATION
+#     
+#     # ABSENCE STRATIFICATION
+#     f.0 <- ceiling(n.0/K.lst.0)
+#     s.0 <- sample(rep(1:K.lst.0,f.0), n.0)
+#     
+#     # PRESENCE STRATIFICATION
+#     f.1 <- ceiling(n.1/K.lst.1)
+#     s.1 <- sample(rep(1:K.lst.1,f.1), n.1)
+#     
+#     # RESPONSE PREDICTION
+#     
+#     for (i in 1:K.lst)
+#     {
+#       j.out <- id.0[(s.0 == i)]
+#       j.out <- append(j.out, id.1[(s.1 == i)], after=length(j.out)) 
+#       j.out <- sort(j.out)
+#       j.in <- id.0[(s.0 != i)]
+#       j.in <- append(j.in, id.1[(s.1 != i)], after=length(j.in)) 
+#       j.in <- sort(j.in)
+#       gam.cal <- update(gam.obj, data = data.cv[j.in, , drop = FALSE])
+#       gam.val <- predict(gam.cal, data.cv[j.out, , drop = FALSE], type = "response")
+#       
+#       if (i == 1)
+#       {
+#         vect.id <- j.out
+#         vect.predicted <- as.vector(gam.val)
+#       } else if (i > 1)
+#       {	
+#         vect.id <- append(vect.id, j.out, after=length(vect.id))
+#         vect.predicted <- append(vect.predicted, as.vector(gam.val), after=length(vect.predicted))
+#       }	
+#     }
+#     df.tmp.res <-  data.frame(cbind(id=round(as.numeric(vect.id),digits=0),predictions=as.numeric(vect.predicted))[order(vect.id),])
+#     
+#     df.res <- data.frame(id=df.tmp.res[,1],obs=as.vector(gam.obj$y),predictions=df.tmp.res[,2])
+#     
+#     
+#   }	
+#   df.res[df.res[,3]>1,3] <- 1
+#   df.res[df.res[,3]<0,3] <- 0
+#   
+#   return(df.res)
+# }
 
 ##################################################################################################################################
 ##################################################################################################################################
@@ -1165,7 +1165,7 @@ me.path <- outpath
 data <- ecospat.testData[,1:10]
 
 # Run the code with the ECOSPAT example dataset
-glm.gam.gbm.me.rf.fit.model(data,p.pred,p.resp,me.args=c('-J',
+glm.gbm.me.rf.fit.model(data,p.pred,p.resp,me.args=c('-J',
 '-P','threshold=false','product=false','quadratic=false','linear=false'), me.path= outpath,outpath)
 
 #########################################################################################################################################
@@ -1176,45 +1176,45 @@ glm.gam.gbm.me.rf.fit.model(data,p.pred,p.resp,me.args=c('-J',
 #########################################################################################################################################
 
 # Examples for running cross-validation function
-      
+
         ########################
 		# GLM MODEL EVALUATION #
 		########################
-		
+
 		# STRATIFIED-CV FOR GLM
 		df.out.cv.glm.achatr <- ecospat.cv.glm(get("glm.Achillea_atrata",envir = ecospat.env), K = 10, cv.lim = 10, jack.knife = F)
-   
-   
-		#permut.glm.saopp <- ecospat.permut.glm(glm.SAOPP,100)	
-		
-			
-		########################
-		# GAM MODEL EVALUATION #
-		########################          
-                     
-		# STRATIFIED-CV FOR GAM
-		df.out.cv.gam.achatr <- ecospat.cv.gam(get("gam.Achillea_atrata",envir = ecospat.env), K = 10, cv.lim = 10, jack.knife = F)
+
+
+		#permut.glm.saopp <- ecospat.permut.glm(glm.SAOPP,100)
+
+
+		# ########################
+		# # GAM MODEL EVALUATION #
+		# ########################
+		# 
+		# # STRATIFIED-CV FOR GAM
+		# df.out.cv.gam.achatr <- ecospat.cv.gam(get("gam.Achillea_atrata",envir = ecospat.env), K = 10, cv.lim = 10, jack.knife = F)
 
 		########################
 		# GBM MODEL EVALUATION #
 		########################
-		
+
 		# STRATIFIED-CV FOR GBM
 		df.out.cv.gbm.achatr <- ecospat.cv.gbm(get("gbm.Achillea_atrata",envir = ecospat.env), data, K = 10, cv.lim = 10, jack.knife = F)
-		
+
     	#######################
 		# ME MODEL EVALUATION #
 		#######################
-		
+
 		# STRATIFIED-CV FOR ME
 		# df.out.cv.me <- ecospat.cv.me(df.tmp.input,names(df.tmp.input[1]),names(df.tmp.input[2:ncol(df.tmp.input)]),K=10, cv.lim = 10, jack.knife = F)
-		
+
 		df.out.cv.me.achatr <- ecospat.cv.me(data, names(data)[9], names(data)[4:8], K = 10, cv.lim = 10, jack.knife = F)
-		
+
 	   	#######################
 		# RF MODEL EVALUATION #
 		#######################
-		
+
 		# STRATIFIED-CV FOR RF
 		df.out.cv.rf.achatr <- ecospat.cv.rf(get("rf.Achillea_atrata",envir = ecospat.env), data[, c(9, 4:8)], K = 10, cv.lim = 10, jack.knife = F)
 }

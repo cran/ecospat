@@ -2,7 +2,7 @@
 
 \alias{ecospat.co_occurrences}
 
-\title{Species Co-occurrences}
+\title{Species Co-Occurrences}
 
 \description{Calculate an index of species co-occurrences.}
 

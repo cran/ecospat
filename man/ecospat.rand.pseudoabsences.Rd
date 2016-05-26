@@ -24,9 +24,9 @@ presence, colxypresence, mindist)}
 \author{Olivier Broennimann \email{olivier.broennimann@unil.ch}}
 
 \examples{
-glob<-ecospat.testData[2:8]
-presence<-ecospat.testData[c(2:3,9)]
-presence<-presence[presence[,3]==1,1:2]
+glob <- ecospat.testData[2:8]
+presence <- ecospat.testData[c(2:3,9)]
+presence <- presence[presence[,3]==1,1:2]
 ecospat.rand.pseudoabsences (nbabsences=10, glob=glob, colxyglob=1:2, colvar = "all", 
 presence= presence, colxypresence=1:2, mindist=20)
 }

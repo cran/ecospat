@@ -1,4 +1,4 @@
-ecospat.SSDMeval <- function (eval,pred,proba,ntir)
+ecospat.CommunityEval <- function (eval,pred,proba,ntir)
 {
      if(proba==F){
           ntir<-1
