@@ -89,4 +89,26 @@ NEW FEATURES
 
 
 
+ecospat_2.1.1 (02.11.16)
+=============
+ 
+FIXES
+
+* Fixed the definition of variables of TRUE/FALSE in the files R/ecospat.ESM.R, R/ecospat.sampling.R and R/ecospat.occprep.R.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

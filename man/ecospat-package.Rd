@@ -33,8 +33,8 @@ The \code{ecospat} package was written by current and former members and collabo
 \tabular{ll}{
 Package: \tab ecospat\cr
 Type: \tab Package\cr
-Version: \tab 2.1.0\cr
-Date: \tab 2016-09-26\cr
+Version: \tab 2.1.1\cr
+Date: \tab 2016-11-02\cr
 License: \tab GPL \cr
 }
 
