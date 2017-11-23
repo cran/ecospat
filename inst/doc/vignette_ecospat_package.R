@@ -42,7 +42,7 @@ p<- x[1:90,] #A projection dataset.
 ref<- x[91:300,] # A reference dataset
 
 ## ------------------------------------------------------------------------
-ecospat.exdet(ref,p)
+ecospat.climan(ref,p)
 
 ## ------------------------------------------------------------------------
 x <- ecospat.testData[c(2,3,4:8)]

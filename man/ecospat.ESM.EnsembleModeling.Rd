@@ -17,9 +17,11 @@ This function evaluates and averages simple bivariate models by weighted means t
 \arguments{
     \item{ESM.modeling.output}{a \code{"\link[=BIOMOD.models.out-class]{BIOMOD.models.out}"} returned by \code{\link[ecospat]{ecospat.ESM.Modeling}}}
     
-    \item{weighting.score}{an evaluation score used to weight single models to build ensembles:"AUC","TSS","Boyce","Kappa","SomersD"
-
-#the evaluation methods used to evaluate ensemble models ( see \code{"\link[=BIOMOD_Modeling]{BIOMOD_Modeling}"}  \bold{models.eval.meth} section for more detailed informations )
+    \item{weighting.score}{an evaluation score used to weight single models to build ensembles:"AUC","TSS",
+    
+    "Boyce","Kappa","SomersD" #the evaluation methods used to evaluate ensemble models 
+    
+    ( see \code{"\link[=BIOMOD_Modeling]{BIOMOD_Modeling}"}  \bold{models.eval.meth} section for more detailed informations )
 }
     \item{threshold}{
 threshold value of an evaluation score to select the bivariate model(s) included for building the ESMs
@@ -43,15 +45,18 @@ The ESM set of functions could be used to build ESMs using simple bivariate mode
 species:          species name
 ESM.fit:          data.frame of the predicted values for the data used to build the models.
 ESM.evaluations:  data.frame with evaluations scores for the ESMs
-ESM.predictions:  Returns the projections of ESMs for the selected single models and their ensemble
+weights:          weighting scores used to weight the bivariate models to build the single ESM
+weights.EF:       weighting scores used to weight the single ESM to build the ensemble of ESMs from different modelling techniques (only available if >1 modelling techniques were selected).
+failed:           bivariate models which failed because they could not be calibrated.
 
 
 A \code{"\link[=BIOMOD.EnsembleModeling.out-class]{BIOMOD.EnsembleModeling.out}"}. This object will be later given to \code{\link[ecospat]{ecospat.ESM.EnsembleProjection}} if you want to make some projections of this ensemble-models.
 
 }
 \author{
-Frank Breiner \email{frank.breiner@wsl.ch} with contributions of 
-Olivier Broennimann \email{olivier.broennimann@unil.ch}
+Frank Breiner \email{frank.breiner@wsl.ch} 
+
+with contributions of Olivier Broennimann \email{olivier.broennimann@unil.ch}
 
 }
 \references{
