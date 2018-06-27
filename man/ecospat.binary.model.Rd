@@ -36,3 +36,51 @@ Freeman, E.A. and G.G. Moisen. 2008. A comparison of the performance of threshol
 
 \author{Ruben G. Mateo \email{rubeng.mateo@gmail.com} with contributions of Frank Breiner \email{frank.breiner@wsl.ch}}
 
+\examples{
+
+\dontrun{
+library(raster)
+library(dismo)
+
+### make a maxent model
+
+# copy maxent.jar file in the right folder
+path.from<-system.file("extdata", "maxent.txt", package="ecospat")
+path.to <- paste0(system.file(package="dismo"), "/java/maxent.txt")
+path.to.renamed <- paste0(system.file(package="dismo"), "/java/maxent.jar")
+file.copy(path.from,path.to,overwrite = TRUE)
+file.rename(path.to, path.to.renamed)
+
+if (file.exists(path.to.renamed) & require(rJava)) {
+
+  # get predictor variables
+  fnames <- list.files(path=paste(system.file(package="dismo"), '/ex', sep=''), 
+                     pattern='grd', full.names=TRUE )
+  predictors <- stack(fnames)
+  #plot(predictors)
+
+  # file with presence points
+  occurence <- paste(system.file(package="dismo"), '/ex/bradypus.csv', sep='')
+  occ <- read.table(occurence, header=TRUE, sep=',')[,-1]
+  colnames(occ) <- c("x","y")
+  occ <- ecospat.occ.desaggregation(occ,min.dist=1)
+
+  # fit a domain model, biome is a categorical variable
+  me <- maxent(predictors, occ, factors='biome')
+
+  # predict to entire dataset
+  pred <- predict(me, predictors) 
+
+  plot(pred)
+  points(occ)
+}
+
+### convert suitability to binary map
+
+mpa.cutoff <- ecospat.mpa(pred,occ,perc = 0.9) # 90 percent of the presences encompassed
+pred.bin.mpa <- ecospat.binary.model(pred,mpa.cutoff)
+
+plot(pred.bin.mpa)
+points(occ)
+}
+}

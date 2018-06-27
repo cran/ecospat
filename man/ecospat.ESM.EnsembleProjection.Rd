@@ -10,14 +10,17 @@ This function projects calibrated ESMs into new space or time.
 }
 \usage{
     ecospat.ESM.EnsembleProjection( ESM.prediction.output, 
-                                    ESM.EnsembleModeling.output)
+                                    ESM.EnsembleModeling.output,
+                                    chosen.models = 'all')
 }
 \arguments{
-    \item{ESM.prediction.output}{a \code{"\link[=BIOMOD.models.out-class]{BIOMOD.models.out}"} returned by \code{\link[ecospat]{ecospat.ESM.Projection}}
+    \item{ESM.prediction.output}{a list object returned by \code{\link[ecospat]{ecospat.ESM.Projection}}
     }
 
     \item{ESM.EnsembleModeling.output}{
-a \code{"\link[=BIOMOD.EnsembleModeling.out-class]{BIOMOD.EnsembleModeling.out}"} object returned by \code{\link[ecospat]{ecospat.ESM.EnsembleModeling}}}
+a list object returned by \code{\link[ecospat]{ecospat.ESM.EnsembleModeling}}}
+        \item{chosen.models}{a character vector (either 'all' or a sub-selection of model names) to remove models from the ensemble (same as in \code{biomod2}). Default is 'all'.
+}
 }
 
 \details{
@@ -40,8 +43,11 @@ Frank Breiner \email{frank.breiner@wsl.ch}
 \references{
 
 Lomba, A., L. Pellissier, C.F. Randin, J. Vicente, F. Moreira, J. Honrado and A. Guisan. 2010. Overcoming the rare species modelling paradox: A novel hierarchical framework applied to an Iberian endemic plant. \emph{Biological Conservation}, \bold{143},2647-2657.
+
 Breiner F.T., A. Guisan, A. Bergamini and M.P. Nobis. 2015. Overcoming limitations of modelling rare species by using ensembles of small models. \emph{Methods in Ecology and Evolution}, \bold{6},1210-1218.
-          }
+
+Breiner F.T., Nobis M.P., Bergamini A., Guisan A. 2018. Optimizing ensembles of small models for predicting the distribution of species with few occurrences. \emph{Methods in Ecology and Evolution}. \doi{10.1111/2041-210X.12957}
+}
 
 \seealso{
 \code{\link[ecospat]{ecospat.ESM.Modeling}}, \code{\link[ecospat]{ecospat.ESM.Projection}}, \code{\link[ecospat]{ecospat.ESM.EnsembleModeling}}
@@ -51,7 +57,10 @@ Breiner F.T., A. Guisan, A. Bergamini and M.P. Nobis. 2015. Overcoming limitatio
 }
 \examples{
    \dontrun{
-# Loading test data for the niche dynamics analysis in the invaded range
+library(biomod2)
+
+# Loading test data
+data(ecospat.testNiche.inv)
 inv <- ecospat.testNiche.inv
 
 # species occurrences
@@ -63,22 +72,18 @@ current <- inv[3:10]
 
 
 
-### Formating the data with the BIOMOD_FormatingData() function form the package biomod2
-setwd(path.wd)
-t1 <- Sys.time()
+### Formating the data with the BIOMOD_FormatingData() function from the package biomod2
+
 sp <- 1
 myBiomodData <- BIOMOD_FormatingData( resp.var = as.numeric(sp_occ[,sp]),
                                       expl.var = current,
                                       resp.xy = xy,
                                       resp.name = colnames(sp_occ)[sp])
 
-myBiomodOption <- Print_Default_ModelingOptions()
-
 
 ### Calibration of simple bivariate models
 my.ESM <- ecospat.ESM.Modeling( data=myBiomodData,
                                 models=c('GLM','RF'),
-                                models.options=myBiomodOption,
                                 NbRunEval=2,
                                 DataSplit=70,
                                 weighting.score=c("AUC"),
@@ -96,5 +101,12 @@ my.ESM_proj_current<-ecospat.ESM.Projection(ESM.modeling.output=my.ESM,
 my.ESM_EFproj_current <- ecospat.ESM.EnsembleProjection(ESM.prediction.output=my.ESM_proj_current,
                                                         ESM.EnsembleModeling.output=my.ESM_EF)
 
+## get the model performance of ESMs 
+my.ESM_EF$ESM.evaluations
+## get the weights of the single bivariate models used to build the ESMs
+my.ESM_EF$weights
+
+## get the variable contributions of ESMs
+ecospat.ESM.VarContrib(my.ESM,my.ESM_EF,scaling="01")
 }}
 

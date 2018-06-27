@@ -35,23 +35,23 @@
 
 
 ecospat.rangesize <- function(bin.map = NULL,
-                              ocp = T,
+                              ocp = TRUE,
                               buffer = 0,
-                              eoo.around.model = T,
-                              eoo.around.modelocp = F,
+                              eoo.around.model = TRUE,
+                              eoo.around.modelocp = FALSE,
                               xy = NULL,
-                              EOO = T,
-                              Model.within.eoo = T,
-                              AOO = T,
+                              EOO = TRUE,
+                              Model.within.eoo = TRUE,
+                              AOO = TRUE,
                               resol = c(2000, 2000),
-                              AOO.circles = F,
-                              d = sqrt(2000^2/pi),
+                              AOO.circles = FALSE,
+                              d = sqrt((2000*2)/pi),
                               lonlat = FALSE,
                               # alpha.hull= F,
                               # alpha = 2,
-                              return.obj = T,
-                              save.obj = F,
-                              save.rangesize = F,
+                              return.obj = TRUE,
+                              save.obj = FALSE,
+                              save.rangesize = FALSE,
                               directory = getwd()){
 
   #if(ocp | EOO | alphahull | AOO & is.null(xy)){stop("need xy-coordinates of species occurrence")}
@@ -66,7 +66,6 @@ ecospat.rangesize <- function(bin.map = NULL,
   
   if(AOO){
     aoo.obj <- bin.map[[1]]
-    #res(aoo.obj) <- resol
     res(aoo.obj) = resol
     aoo.obj[] <- 0
     
@@ -216,10 +215,10 @@ ecospat.rangesize <- function(bin.map = NULL,
 
 
 ecospat.occupied.patch <- function(bin.map, Sp.occ.xy, buffer = 0){
-  cl<-clump(bin.map)
-  d<-extract(cl,Sp.occ.xy,buffer=buffer)
+  cl <- clump(bin.map)
+  d <- raster::extract(cl,Sp.occ.xy,buffer=buffer)
   d <- unique(na.omit(unlist(d)))
-  b.map<-(cl %in% d) + bin.map
+  b.map <- raster::match(cl,d) + bin.map
   names(b.map) <- names(bin.map)
   return(b.map)}
 

@@ -22,7 +22,7 @@
   \item{MESSneg}{The number of predictors on which there is extrapolation.}
 }
 
-\author{Blaise Petitpierre \email{bpetitpierre@gmail.com}}
+\author{Blaise Petitpierre \email{bpetitpierre@gmail.com}. Modified by Daniel Scherrer \email{daniel.j.a.scherrer@gmail.com}}
 
 \references{
 Elith, J., M. Kearney and S. Phillips. 2010. The art of modelling range-shifting species. \emph{Methods in ecology and evolution}, \bold{1}, 330-342.
@@ -40,5 +40,5 @@ cal <- x[91:300,] #A calibration dataset
 mess.object <- ecospat.mess (proj, cal, w="default")
 
 #Plot MESS 
-ecospat.plot.mess (xy=proj[c(1:2)], mess.object, cex=1, pch=15)
+ecospat.plot.mess (mess.object, cex=1, pch=15)
 }

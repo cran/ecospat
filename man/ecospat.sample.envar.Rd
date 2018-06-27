@@ -28,12 +28,14 @@ colvarxy, colvar = "all", resolution)}
 
 \examples{
 \dontrun{
+data("ecospat.testNiche")
 spp <- ecospat.testNiche
-sp1 <- spp[1:32,1:3]
-occ.sp1 <- ecospat.occ.desaggregation(dfvar=sp1,colxy=2:3,colvar=NULL, min.dist=500,plot=TRUE)
+sp1 <- spp[1:32,2:3]
+names(sp1)<-c("x","y")
+occ.sp1 <- ecospat.occ.desaggregation(xy=sp1,min.dist=500)
 clim <- ecospat.testData[2:8]
 
-occ_sp1 <- na.exclude(ecospat.sample.envar(dfsp=occ.sp1,colspxy=1:2,colspkept=1:2,dfvar=clim,
-colvarxy=1:2,colvar="all",resolution=25))
+occ_sp1 <- na.exclude(ecospat.sample.envar(dfsp=occ.sp1,colspxy=1:2,colspkept=1:2,
+                                            dfvar=clim,colvarxy=1:2,colvar="all",resolution=25))
 }
 }

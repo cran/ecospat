@@ -217,7 +217,7 @@ ecospat.ESM.Modeling <- function(data, NbRunEval = NULL, DataSplit, DataSplitTab
       #######       
       mymodels[[k]] <- "failed"
       try(mymodels[[k]] <- BIOMOD_Modeling(data = mydata, models = models, models.options = models.options,
-                                           models.eval.meth = models.eval.meth, DataSplitTable = calib.lines, Prevalence = Prevalence,
+                                           models.eval.meth = models.eval.meth, DataSplitTable = as.matrix(calib.lines), Prevalence = Prevalence,
                                            rescal.all.models = TRUE, do.full.models = TRUE, VarImport = 0, modeling.id = modeling.id))
       
       if (cleanup != FALSE) {
@@ -248,7 +248,7 @@ ecospat.ESM.Modeling <- function(data, NbRunEval = NULL, DataSplit, DataSplitTab
       #######       
       
       BIOMOD_Modeling(data = mydata, models = models, models.options = models.options, models.eval.meth = models.eval.meth,
-                      DataSplitTable = calib.lines, Prevalence = Prevalence, rescal.all.models = TRUE, do.full.models = TRUE,
+                      DataSplitTable = as.matrix(calib.lines), Prevalence = Prevalence, rescal.all.models = TRUE, do.full.models = TRUE,
                       VarImport = 0, modeling.id = modeling.id)
       
     }
@@ -284,7 +284,7 @@ ecospat.ESM.Modeling <- function(data, NbRunEval = NULL, DataSplit, DataSplitTab
 # averaged using weights based on model performances (e.g. AUC) accoring to Breiner et al (2015).
 # They provide full functionality of the approach described in Breiner et al. (2015).
 # The name of new.env must be a regular expression (see ?regex)
-                              
+
 ## Values:
 # Returns the projections for all selected models (same as in biomod2) See "BIOMOD.projection.out" for details.
 
@@ -323,12 +323,7 @@ ecospat.ESM.Projection <- function(ESM.modeling.output, new.env, parallel = FALS
       
       ### models which failed have class 'character' otherwise 'BIOMOD.models.out'
       if (class(mymodel) == "character") {
-        (next)()
-      }
-      ## don't use models where Full model failed!
-      if (sum(c(grepl("Full", mymodel@models.failed), grepl(paste("RUN", NbRunEval + 1, sep = ""),
-                                                            mymodel@models.failed)) == 1)) {
-        (next)()
+        next()
       }
       
       # if DataSplitTable is provided to BIOMOD_Modeling, Full models are named:
@@ -349,43 +344,38 @@ ecospat.ESM.Projection <- function(ESM.modeling.output, new.env, parallel = FALS
                                                                                                                                                         grep(paste("RUN", NbRunEval + 1, sep = ""), mymodel@models.computed, value = TRUE)),
                           do.stack = TRUE, build.clamping.mask = F)
       }
-    }
-  }
+    } ## End for loop
+  } ## End loop if(parallel)
   if (parallel == TRUE) {
     foreach(k = 1:length(mymodels), .packages = c("biomod2","raster")) %dopar% {
       mymodel <- mymodels[[k]]
       
-      ####### Exclude the models which failed ####### change to failed
-      if (class(mymodel) == "character")
+      ####### next() is not working in foreach loops
+      ####### Exclude the models which failed & don't use models where Full model failed!
+      
+      if (class(mymodel) != "character")
       {
-        (next)()
-      }  ### models which failed have class 'character' otherwise 'BIOMOD.models.out'
-      ## don't use models where Full model failed!
-      if (sum(c(grepl("Full", mymodel@models.failed), grepl(paste("RUN", NbRunEval + 1, sep = ""),
-                                                            mymodel@models.failed)) == 1)) {
-        (next)()
-      }
-      # if DataSplitTable is provided to BIOMOD_Modeling, Full models are named:
-      # paste('RUN',NbRunEval+1,sep='')
-      if (is.data.frame(new.env)) {
-        BIOMOD_Projection(modeling.output = mymodel, new.env = new.env[, colnames(new.env) %in%
-                                                                         combinations[, k]], proj.name = paste(name.env, "ESM.BIOMOD", k, mymodel@modeling.id,
-                                                                                                               sep = "."), selected.models = c(grep("Full", mymodel@models.computed, value = TRUE),
-                                                                                                                                               grep(paste("RUN", NbRunEval + 1, sep = ""), mymodel@models.computed, value = TRUE)),
-                          do.stack = FALSE, build.clamping.mask = FALSE)
-      }
-      # if DataSplitTable is provided to BIOMOD_Modeling, Full models are named:
-      # paste('RUN',NbRunEval+1,sep='')
-      if (class(new.env) == "RasterStack") {
-        BIOMOD_Projection(modeling.output = mymodel, new.env = new.env[[which(names(new.env) %in%
-                                                                                combinations[, k])]], proj.name = paste(name.env, "ESM.BIOMOD", k, mymodel@modeling.id,
-                                                                                                                        sep = "."), selected.models = c(grep("Full", mymodel@models.computed, value = TRUE),
-                                                                                                                                                        grep(paste("RUN", NbRunEval + 1, sep = ""), mymodel@models.computed, value = TRUE)),
-                          do.stack = TRUE, build.clamping.mask = F)
-      }
-    }
-    
-  }
+        # if DataSplitTable is provided to BIOMOD_Modeling, Full models are named:
+        # paste('RUN',NbRunEval+1,sep='')
+        if (is.data.frame(new.env)) {
+          BIOMOD_Projection(modeling.output = mymodel, new.env = new.env[, colnames(new.env) %in%
+                                                                           combinations[, k]], proj.name = paste(name.env, "ESM.BIOMOD", k, mymodel@modeling.id,
+                                                                                                                 sep = "."), selected.models = c(grep("Full", mymodel@models.computed, value = TRUE),
+                                                                                                                                                 grep(paste("RUN", NbRunEval + 1, sep = ""), mymodel@models.computed, value = TRUE)),
+                            do.stack = FALSE, build.clamping.mask = FALSE)
+        }
+        # if DataSplitTable is provided to BIOMOD_Modeling, Full models are named:
+        # paste('RUN',NbRunEval+1,sep='')
+        if (class(new.env) == "RasterStack") {
+          BIOMOD_Projection(modeling.output = mymodel, new.env = new.env[[which(names(new.env) %in%
+                                                                                  combinations[, k])]], proj.name = paste(name.env, "ESM.BIOMOD", k, mymodel@modeling.id,
+                                                                                                                          sep = "."), selected.models = c(grep("Full", mymodel@models.computed, value = TRUE),
+                                                                                                                                                          grep(paste("RUN", NbRunEval + 1, sep = ""), mymodel@models.computed, value = TRUE)),
+                            do.stack = TRUE, build.clamping.mask = F)
+        }
+      } ## End loop if(class(model)) ## i.e. if model not failed
+    } ## End loop foreach()
+  } ## End loop if(parallel)
   
   
   if (cleanup != FALSE) {
@@ -810,11 +800,16 @@ ecospat.ESM.EnsembleModeling <- function(ESM.modeling.output, weighting.score, t
 ## See also
 # ecospat.ESM.Modeling; ecospat.ESM.MergeModels; ecospat.ESM.EnsembleModeling
 
-ecospat.ESM.EnsembleProjection <- function(ESM.prediction.output, ESM.EnsembleModeling.output) {
+ecospat.ESM.EnsembleProjection <- function(ESM.prediction.output, ESM.EnsembleModeling.output, chosen.models = 'all') {
   
   models <- ESM.prediction.output$models
   weights <- ESM.EnsembleModeling.output$weights
   weights.EF <- ESM.EnsembleModeling.output$weights.EF
+  if(chosen.models[1]!='all'){
+    if(any(!chosen.models %in% models)){stop('chosen.models must be a subset of the models selected in ecospat.ESM.Modeling()')}
+    models <- chosen.models
+    weights.EF <- weights.EF[weights.EF$Group.1 %in% chosen.models,]
+  }
   NbRunEval <- ESM.prediction.output$NbRunEval
   pred.biva <- ESM.prediction.output$pred.biva
   new.env.raster <- ESM.prediction.output$new.env.raster
@@ -833,11 +828,10 @@ ecospat.ESM.EnsembleProjection <- function(ESM.prediction.output, ESM.EnsembleMo
   }
   
   ## MAKE ESM PROJECTIONS
-  if (!exists("new.env")) {
-    stop("new.env object required!")
-  }
+  
   if (new.env.raster)
-    pred.biva <- pred.biva[seq(2,length(pred.biva),2)]
+    #pred.biva <- pred.biva[seq(2,length(pred.biva),2)]
+    pred.biva <- grep("\\.gri\\b", pred.biva, value = T)
   if (!new.env.raster)
     pred.biva <- grep("RData", pred.biva, value = TRUE)
   
@@ -850,7 +844,7 @@ ecospat.ESM.EnsembleProjection <- function(ESM.prediction.output, ESM.EnsembleMo
       colnames(biva.proj[[i]]) <- paste(colnames(biva.proj[[i]]), i, sep = ".")
     }
     if (new.env.raster) {
-      biva.proj[[i]] <- stack(pred.biva[i])
+      biva.proj[[i]] <- raster::stack(pred.biva[i])
     }
   }
   
@@ -879,27 +873,25 @@ ecospat.ESM.EnsembleProjection <- function(ESM.prediction.output, ESM.EnsembleMo
   }
   
   if (new.env.raster) {
-    pred.ESM <- stack(biva.proj)
+    pred.ESM <- raster::stack(biva.proj)
+    
+    ## Remove weights from models where Full model failed
     for (i in 1:length(models)) {
       assign(models[i], pred.ESM[[grep(models[i], names(pred.ESM))]])
       
-      if (length(models) > 1) {
-        
-        ## Remove weights from models where Full model failed
-        
-        # weights.mod<- weights.mod[grep( #code by Frank, but doesn't work if more than 1 model failed
-        # paste(unlist(strsplit(n,'_'))[((1:length(n))*4)-3],'_',sep=''),
-        # paste(names(weights.mod),'_',sep=''), invert=TRUE)]
-        
-        weights.mod <- weights[grep(models[i], names(weights))]
-        assign(models[i], round(raster::weighted.mean(get(models[i]), weights.mod, na.rm = TRUE)))
-      } else {
-        assign(models[i], round(raster::weighted.mean(get(models[i]), weights, na.rm = TRUE)))
-      }
+      weights.mod <- weights[grep(models[i], names(weights))]
+      
+      if(any(grepl(models[i], failed.mod))){
+        weights.mod <- weights.mod[!names(weights.mod) %in% paste(models[i],'.',sub('_.*','',failed.mod[grepl(models[i], failed.mod)]),sep='')]
+      } 
+      
+      ## Build a ESM for each technqiue
+      assign(models[i], round(raster::weighted.mean(get(models[i]), weights.mod, na.rm = TRUE)))
     }
-    pred.ESM <- stack(mget(models))[[order(models)]]
+    
+    pred.ESM <- raster::stack(mget(models))[[order(models)]]
     do.call("rm", as.list(models))
-  }
+  } ## End if(new.env.raster)
   
   ## Do projection for Double Ensemble
   
@@ -907,7 +899,7 @@ ecospat.ESM.EnsembleProjection <- function(ESM.prediction.output, ESM.EnsembleMo
     if (new.env.raster) {
       ESM.EF <- round(raster::weighted.mean(pred.ESM[[names(pred.ESM)]], weights.EF[order(weights.EF[,
                                                                                                      1]), 2], na.rm = TRUE))
-      pred.ESM <- stack(pred.ESM, ESM.EF)
+      pred.ESM <- raster::stack(pred.ESM, ESM.EF)
       names(pred.ESM) <- c(names(pred.ESM)[1:(nlayers(pred.ESM) - 1)], "EF")
       rm(ESM.EF)
     }
@@ -954,7 +946,7 @@ ecospat.mpa <- function(Pred, Sp.occ.xy, perc = 0.9) {
   if (class(Pred) == "RasterLayer") {
     Pred <- extract(Pred, Sp.occ.xy)
   }
-  round(quantile(Pred, probs = perc), 3)
+  round(quantile(Pred, probs = perc,na.rm=T), 3)
 }
 
 ### EXAMPLE
@@ -1073,4 +1065,81 @@ ecospat.ESM.MergeModels <- function(ESM.modeling.output) {
   ESM.modeling.output[[1]]$pred.biva <- ESM.modeling.output[[1]]$pred.biva[select.pred]
   
   return(ESM.modeling.output[[1]])
+}
+
+############################
+# b)  ecospat.ESM.VarContrib          get Variable contribution for each variable and method (mean across model runs)
+############################
+
+## FUNCTION'S ARGUMENTS
+## ESM.modeling.output:   BIOMOD.formated.data object returned by BIOMOD_modeling
+## ESM_EF.output:   BIOMOD.formated.data object returned by ecospat.ESM.EnsembleModeling
+## scaling: rescaling method: 'plusminus1','plusminus1bymodel','01','01bymodel' or 'none'. 
+
+## Details:
+# Calculates the difference in bivariate model weights were a focal variable was used compared to all bivariate model weights. 
+# It gives an indication on the contribution of the variable in the final ensemble model. Without rescaling the contributions 
+# are in the scale of the bivariate model weights. They can be rescale between 0 and 1 (scaling='01') or multiplied to a maximum 
+# of 1 (or -1 if the biggest contribution is negative; scaling ='plusminus1'). Scaling methods with 'bymodel' do the same 
+# but within each modeling techiques.
+
+## Values:
+# Returns a dataframe with contribution values by variable and model
+
+## Authors:
+# Olivier Broennimann <Olivier.Broennimann@unil.ch>
+
+##See Also
+# ecospat.ESM.Modeling; ecospat.ESM.EnsembleModeling; ecospat.ESM.EnsembleProjection
+
+ecospat.ESM.VarContrib <- function(ESM.modeling.output,ESM_EF.output,scaling="plusminus1") {
+  
+  if(!scaling %in% c("plusminus1","plusminus1bymodel","01","01bymodel","none")) stop("scaling should be 'plusminus1','plusminus1bymodel','01','01bymodel' or 'none'")
+  
+  var<-colnames(ESM.modeling.output$data@data.env.var)
+  models<-ESM.modeling.output$models
+  contrib<-data.frame(matrix(nrow=length(var),ncol=length(models),dimnames=list(var,models)))
+  weights<-ESM_EF.output$weights
+  
+  cb1<-rep(combn(var,2)[1,],each=length(models))
+  cb2<-rep(combn(var,2)[2,],each=length(models))
+  
+  order_weights <- paste0(rep(models, ncol(combn(var,2))), ".ESM.BIOMOD.", 
+                          rep(1:ncol(combn(var,2)), each=length(models)))
+  
+  weights.reordered<-weights[order_weights]
+  
+  #contribution by technique
+  for (m in models){
+    for(v in var){
+    pos_models <- grep(m,names(weights.reordered))
+    pos_cb<-c(which(cb1==v),which(cb2==v))
+    pos<-intersect(pos_models,pos_cb)
+    contrib[which(var==v),which(names(contrib)==m)]<-mean(weights.reordered[pos])-mean(weights.reordered[pos_models])
+    }
+  }
+  
+  # rescaling 
+  contrib[which(is.na(contrib)),]<-0 #to remove variables with no contribution NA
+  
+  rescale01 = function(x) { 
+    xMin = min(x)
+    xMax = max(x)
+    x. = (x - xMin) / (xMax - xMin)
+    return(x.)
+  }
+  
+  rescale.plusminus1 = function(x) { 
+    xMin = min(x)
+    xMax = max(x)
+    x. = x / max(abs(xMin),xMax)
+    return(x.)
+  }
+  
+  if(scaling=="01bymodel") contrib<-apply(contrib,2,rescale01)
+  if(scaling=="plusminus1bymodel") contrib<-apply(contrib,2,rescale.plusminus1) 
+  if(scaling=="01") contrib<-(contrib-min(contrib))/(max(contrib)-min(contrib))
+  if(scaling=="plusminus1") contrib<-contrib/max(abs(min(contrib)),max(contrib))
+  
+  return(contrib)
 }

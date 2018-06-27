@@ -6,10 +6,9 @@
 
 \description{Plot the MESS extrapolation index onto the geographical space.}
 
-\usage{ecospat.plot.mess (xy, mess.object, cex=1, pch=15)}
+\usage{ecospat.plot.mess (mess.object, cex=1, pch=15)}
 
 \arguments{
-  \item{xy}{The x and y coordinates of the projection dataset.}
   \item{mess.object}{A dataframe as returned by the \code{ecospat.mess} function.}
   \item{cex}{Specify the size of the symbol.}
   \item{pch}{Specify the point symbols.}
@@ -34,6 +33,6 @@ cal <- x[91:300,] #A calibration dataset
 mess.object <- ecospat.mess (proj, cal, w="default")
 
 #Plot MESS 
-ecospat.plot.mess (xy=proj[c(1:2)], mess.object, cex=1, pch=15)
+ecospat.plot.mess (mess.object, cex=1, pch=15)
 }
 }

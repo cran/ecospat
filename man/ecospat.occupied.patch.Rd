@@ -37,40 +37,44 @@ IUCN Standards and Petitions Subcommittee. 2016. Guidelines for Using the IUCN R
 \examples{
 
 \dontrun{
-
+library(raster)
 library(dismo)
 
+### make a maxent model
 
-# only run if the maxent.jar file is available, in the right folder
-jar <- paste(system.file(package="dismo"), "/java/maxent.jar", sep='')
+# copy maxent.jar file in the right folder
+path.from<-system.file("extdata", "maxent.txt", package="ecospat")
+path.to <- paste0(system.file(package="dismo"), "/java/maxent.txt")
+path.to.renamed <- paste0(system.file(package="dismo"), "/java/maxent.jar")
+file.copy(path.from,path.to,overwrite = TRUE)
+file.rename(path.to, path.to.renamed)
 
-# checking if maxent can be run (normally not part of your script)
-file.exists(jar)
-require(rJava))
+if (file.exists(path.to.renamed) & require(rJava) & require(igraph)) {
 
-# get predictor variables
-fnames <- list.files(path=paste(system.file(package="dismo"), '/ex', sep=''), 
+  # get predictor variables
+  fnames <- list.files(path=paste(system.file(package="dismo"), '/ex', sep=''), 
                      pattern='grd', full.names=TRUE )
-predictors <- stack(fnames)
-#plot(predictors)
+  predictors <- stack(fnames)
+  #plot(predictors)
 
-# file with presence points
-occurence <- paste(system.file(package="dismo"), '/ex/bradypus.csv', sep='')
-occ <- read.table(occurence, header=TRUE, sep=',')[,-1]
-colnames(occ) <- c("x","y")
-occ <- ecospat.occ.desaggregation(occ,mindist=1)
+  # file with presence points
+  occurence <- paste(system.file(package="dismo"), '/ex/bradypus.csv', sep='')
+  occ <- read.table(occurence, header=TRUE, sep=',')[,-1]
+  colnames(occ) <- c("x","y")
+  occ <- ecospat.occ.desaggregation(occ,min.dist=1)
 
-# fit model, biome is a categorical variable
-me <- maxent(predictors, occ, factors='biome')
+  # fit a domain model, biome is a categorical variable
+  me <- maxent(predictors, occ, factors='biome')
 
-# predict to entire dataset
-pred <- predict(me, predictors) 
+  # predict to entire dataset
+  pred <- predict(me, predictors) 
 
-plot(pred)
-points(occ)
+  plot(pred)
+  points(occ)
+}
 
+### to convert suitability to binary map
 
-# use MPA to convert suitability to binary map
 mpa.cutoff <- ecospat.mpa(pred,occ)
 
 pred.bin.mpa <- ecospat.binary.model(pred,mpa.cutoff)
@@ -78,23 +82,24 @@ names(pred.bin.mpa) <- "me.mpa"
 pred.bin.arbitrary <- ecospat.binary.model(pred,0.5)
 names(pred.bin.arbitrary) <- "me.arbitrary"
 
+### calculate occupied patch
 
 mpa.ocp  <- ecospat.occupied.patch(pred.bin.mpa,occ)
-boyce.ocp  <- ecospat.occupied.patch(pred.bin.boyce,occ)
+arbitrary.ocp  <- ecospat.occupied.patch(pred.bin.arbitrary,occ)
 
 par(mfrow=c(1,2))
 plot(mpa.ocp) ## occupied patches: green area
 points(occ,col="red",cex=0.5,pch=19)
-plot(boyce.ocp)
+plot(arbitrary.ocp)
 points(occ,col="red",cex=0.5,pch=19)
 
 ## with buffer:
 mpa.ocp  <- ecospat.occupied.patch(pred.bin.mpa,occ, buffer=500000)
-boyce.ocp  <- ecospat.occupied.patch(pred.bin.boyce,occ, buffer=500000)
+arbitrary.ocp  <- ecospat.occupied.patch(pred.bin.arbitrary,occ, buffer=500000)
 
 plot(mpa.ocp) ## occupied patches: green area
 points(occ,col="red",cex=0.5,pch=19)
-plot(boyce.ocp)
+plot(arbitrary.ocp)
 points(occ,col="red",cex=0.5,pch=19)
 }
 
