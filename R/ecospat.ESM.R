@@ -682,7 +682,7 @@ ecospat.ESM.EnsembleModeling <- function(ESM.modeling.output, weighting.score, t
       # ecospat.boyce(DATA1[!calib.lines[,i],EVAL1$model[n]],DATA1[!calib.lines[,i]&DATA1[,2]
       # ==1,EVAL1$model[n]],PEplot = F)$Pearson.cor }else{
       EVAL1$Boyce[EVAL1$model == EVAL1$model[n]] <- ecospat.boyce(DATA1[!calib.lines[, i], EVAL1$model[n]],
-                                                                  DATA1[!calib.lines[, i] & DATA1[, 2] == 1, EVAL1$model[n]], PEplot = F)$Spearman.cor
+                                                                  DATA1[!calib.lines[, i] & DATA1[, 2] == 1, EVAL1$model[n]], PEplot = F)$cor
       # }
     }
     EVAL1$technique <- unlist(strsplit(EVAL1$model, split = "_"))[seq(2, nrow(EVAL1) * 2, 2)]
@@ -753,7 +753,7 @@ ecospat.ESM.EnsembleModeling <- function(ESM.modeling.output, weighting.score, t
         # ecospat.boyce(DATA1[!calib.lines[,i],EVAL1$model[n]],DATA1[!calib.lines[,i]&DATA1[,2]
         # ==1,EVAL1$model[n]],PEplot = F)$Pearson.cor }else{
         EVAL1$Boyce[EVAL1$model == EVAL1$model[n]] <- ecospat.boyce(DATA1[!calib.lines[, i],
-                                                                          EVAL1$model[n]], DATA1[!calib.lines[, i] & DATA1[, 2] == 1, EVAL1$model[n]], PEplot = F)$Spearman.cor
+                                                                          EVAL1$model[n]], DATA1[!calib.lines[, i] & DATA1[, 2] == 1, EVAL1$model[n]], PEplot = F)$cor
         # }
       }
       EVAL1$technique <- unlist(strsplit(EVAL1$model, split = "_"))[seq(2, nrow(EVAL1) * 2, 2)]
@@ -1130,7 +1130,9 @@ ecospat.ESM.VarContrib <- function(ESM.modeling.output,ESM_EF.output) {
     pos_models <- grep(m,names(weights.reordered))
     pos_cb<-c(which(cb1==v),which(cb2==v))
     pos<-intersect(pos_models,pos_cb)
-    contrib[which(var==v),which(names(contrib)==m)]<-sum(weights.reordered[pos])/(2*sum(weights.reordered[pos_models]))
+    contrib[which(var==v),which(names(contrib)==m)] <- 
+      sum(weights.reordered[pos])/(sum(weights.reordered[setdiff(pos_models,pos)]))*length(setdiff(pos_models,pos))/length(pos)
+    #<-sum(weights.reordered[pos])/(2*sum(weights.reordered[pos_models]))
     }
   }
   
