@@ -1,6 +1,6 @@
 Package: ecospat
-Version: 3.2.1
-Date: 2022-01-05
+Version: 3.2.2
+Date: 2022-05-09
 Title: Spatial Ecology Miscellaneous Methods
 Authors@R: c(
 	person("Olivier", "Broennimann", role = c("cre","aut","ctb"), email = "olivier.broennimann@unil.ch"),
@@ -24,6 +24,7 @@ Authors@R: c(
 	person("Charlotte", "Ndiribe", role = "ctb"),
 	person("Nicolas", "Salamin", role = "ctb"),
 	person("Niklaus", "Zimmermann", role = "ctb"),
+	person("Flavien", "Collart", role = "ctb"),
 	person("Antoine", "Guisan", role = "aut", email = "antoine.guisan@unil.ch"))
 Author: Olivier Broennimann [cre, aut, ctb],
   Valeria Di Cola [aut, ctb],
@@ -46,12 +47,13 @@ Author: Olivier Broennimann [cre, aut, ctb],
   Charlotte Ndiribe [ctb],
   Nicolas Salamin [ctb],
   Niklaus Zimmermann [ctb],
+  Flavien Collart [ctb],
   Antoine Guisan [aut]
 Maintainer: Olivier Broennimann <olivier.broennimann@unil.ch>
 VignetteBuilder: knitr
 Depends: ade4 (>= 1.6-2), ape (>= 3.2), gbm (>= 2.1.1), sp (>= 1.0-15)
-Imports: adehabitatHR (>= 0.4.11), adehabitatMA (>= 0.3.8), biomod2 (>=
-        3.1-64), dismo (>= 0.9-3), ecodist (>= 1.2.9), maptools (>=
+Imports: adehabitatHR (>= 0.4.11), adehabitatMA (>= 0.3.8), biomod2 (<
+        4.0), dismo (>= 0.9-3), ecodist (>= 1.2.9), maptools (>=
         0.8-39), randomForest (>= 4.6-7), raster (>= 2.5-8), rms (>=
         4.5-0), gtools (>= 3.4.1), PresenceAbsence (>= 1.1.9), methods
         (>= 3.1.1), doParallel (>= 1.0.10), foreach (>= 1.4.3),
@@ -71,6 +73,6 @@ License: GPL
 BugReports: https://github.com/ecospat/ecospat
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2022-01-05 09:07:32 UTC; obroenni
+Packaged: 2022-05-12 14:53:07 UTC; obroenni
 Repository: CRAN
-Date/Publication: 2022-01-07 14:02:45 UTC
+Date/Publication: 2022-05-13 08:20:05 UTC

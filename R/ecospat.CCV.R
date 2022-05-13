@@ -271,7 +271,7 @@ ecospat.CCV.modeling <- function(sp.data,
   
   #Checking all the input data
   stopifnot(dim(sp.data)[1]==dim(xy)[1])
-  stopifnot(dim(env.data)[1]==dim(xy)[1] | data.class(env.data)=="RasterStack")
+  stopifnot(dim(env.data)[1]==dim(xy)[1] | inherits(env.data,"RasterStack"))
   stopifnot(dim(DataSplitTable)[1]==dim(xy)[1] | is.null(DataSplitTable))
   stopifnot(DataSplit >= 50 & DataSplit <=100)
   stopifnot(NbRunEval>=0)
@@ -295,7 +295,7 @@ ecospat.CCV.modeling <- function(sp.data,
   }else{
     ensemble.metric.sdm <- ensemble.metric
   }
-  if(data.class(env.data)=="RasterStack"){
+  if(inherits(env.data,"RasterStack")){
     NbPredictors <- dim(env.data)[3]
     NamesPredictors <- names(env.data)
   }else{
@@ -344,7 +344,7 @@ ecospat.CCV.modeling <- function(sp.data,
                                          expl.var = env.data,
                                          resp.xy = xy,
                                          resp.name = sp.name,
-                                         na.rm=FALSE)
+                                         na.rm = FALSE)
     
     #Setting model parameters
     if(is.null(models.options)){
@@ -357,9 +357,9 @@ ecospat.CCV.modeling <- function(sp.data,
     MyBiomodModelOut <- BIOMOD_Modeling(data = MyBiomodData,
                                         models = models,
                                         models.options = MyBiomodOptions,
-                                        models.eval.meth = eval.metrics,
+                                        models.metric.eval = eval.metrics,
                                         DataSplitTable = DataSplitTable,
-                                        Prevalence=NULL,
+                                        Prevalence = NULL,
                                         modeling.id = "ccv")
     
     #Creating the ensemble Model
@@ -405,14 +405,14 @@ ecospat.CCV.modeling <- function(sp.data,
     }
     
     #Running the ESM
-    MyESMModelOut <- ecospat.ESM.Modeling(data=MyESMData, 
+    MyESMModelOut <- ecospat.ESM.Modeling(data = MyESMData, 
                                           DataSplitTable = DataSplitTable, 
                                           weighting.score = ensemble.metric,
-                                          models=models,
+                                          models = models,
                                           Prevalence=NULL,
-                                          modeling.id="ccv", 
-                                          models.options=MyBiomodOptions, 
-                                          parallel=FALSE)
+                                          modeling.id = "ccv", 
+                                          models.options = MyBiomodOptions, 
+                                          parallel = FALSE)
     
     #Ensemble the ESMs
     MyESMEnsemble <- ecospat.ESM.EnsembleModeling(ESM.modeling.output = MyESMModelOut,
