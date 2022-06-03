@@ -17,6 +17,7 @@ names(ecospat.testNiche.nat)
 ## -----------------------------------------------------------------------------
 fpath <- system.file("extdata", "ecospat.testTree.tre", package="ecospat")
 fpath
+library(ape)
 tree<-read.tree(fpath)
 tree$tip.label
 
@@ -57,6 +58,7 @@ ecospat.plot.mess (mess.object, cex=1, pch=15)
 
 ## -----------------------------------------------------------------------------
 fpath <- system.file("extdata", "ecospat.testTree.tre", package="ecospat")
+library(ape)
 tree <- read.tree(fpath)
 data <- ecospat.testData[9:52]
 
@@ -76,6 +78,7 @@ inv <- ecospat.testNiche.inv
 nat <- ecospat.testNiche.nat
 
 ## -----------------------------------------------------------------------------
+library(ade4)
 pca.env <- dudi.pca(rbind(nat,inv)[,3:10],scannf=F,nf=2) 
 
 ## -----------------------------------------------------------------------------
