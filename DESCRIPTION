@@ -1,6 +1,6 @@
 Package: ecospat
-Version: 3.4
-Date: 2022-11-04
+Version: 3.5
+Date: 2023-01-31
 Title: Spatial Ecology Miscellaneous Methods
 Authors@R: c(
 	person("Olivier", "Broennimann", role = c("cre","aut","ctb"), email = "olivier.broennimann@unil.ch"),
@@ -63,7 +63,8 @@ Imports: ade4 (>= 1.6-2), gbm (>= 2.1.1), ape (>= 3.2), sp (>= 1.0-15),
 Suggests: rgdal (>= 1.2-15), rJava (>= 0.9-6), XML (>= 3.98-1.1), knitr
         (>= 1.14), alphahull (>= 2.1), rgeos (>= 0.3-28), igraph (>=
         1.2.1), markdown (>= 1.1), dplyr (>= 0.3.0.1), rmarkdown (>=
-        2.6), qpdf (>= 1.1), snowfall (>= 1.61), maps (>= 3.0.0), rms
+        2.6), qpdf (>= 1.1), snowfall (>= 1.61), maps (>= 3.0.0), rms,
+        terra (>= 1.2-5)
 LazyData: true
 URL:
         http://www.unil.ch/ecospat/home/menuguid/ecospat-resources/tools.html
@@ -72,6 +73,6 @@ License: GPL
 BugReports: https://github.com/ecospat/ecospat
 RoxygenNote: 7.2.1
 NeedsCompilation: no
-Packaged: 2022-11-07 15:17:27 UTC; obroenni
+Packaged: 2023-01-31 08:27:58 UTC; obroenni
 Repository: CRAN
-Date/Publication: 2022-11-07 17:40:02 UTC
+Date/Publication: 2023-01-31 17:20:08 UTC
