@@ -1,6 +1,6 @@
 Package: ecospat
-Version: 4.1.0
-Date: 2024-05-06
+Version: 4.1.1
+Date: 2024-07-04
 Title: Spatial Ecology Miscellaneous Methods
 Authors@R: c(
 	person("Olivier", "Broennimann", role = c("cre","aut","ctb"), email = "olivier.broennimann@unil.ch"),
@@ -74,6 +74,6 @@ License: GPL
 BugReports: https://github.com/ecospat/ecospat
 RoxygenNote: 7.2.1
 NeedsCompilation: no
-Packaged: 2024-05-24 07:41:59 UTC; obroenni
+Packaged: 2024-07-04 11:38:05 UTC; obroenni
 Repository: CRAN
-Date/Publication: 2024-05-24 08:10:02 UTC
+Date/Publication: 2024-07-04 16:10:02 UTC
