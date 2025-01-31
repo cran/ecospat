@@ -284,3 +284,10 @@ ecospat_4.1.1 (02.07.2024)
 
 FIXES
 * remove files created on disk by ESM, CCV and co-occurrence functions
+
+ecospat_4.1.2 (30.01.2025)
+=============
+
+FIXES
+* compatibility fixes for biomod2 biomod2 4.2-6-2 to ESM functions
+

@@ -1,7 +1,7 @@
-b2f408d25dd3645ec96bc57a327f7b9c *DESCRIPTION
+c136776f5a720d50ce795368932b96d3 *DESCRIPTION
 02269817bd4df831fd47f8e58c58811e *NAMESPACE
-6cdad8a04ef9a07359198a1ce0ff68f9 *NEWS
-0e328e51dd83a067185eef88d059436e *R/ecospat.CCV.R
+53ecee6733af1e9033fd654b53433084 *NEWS
+a4b2a045fd03103ce13b6cd8746f8faf *R/ecospat.CCV.R
 fbdf9c7efd41d9e7b117397e70f2a046 *R/ecospat.CommunityEval.R
 cd785eedcd072a97fe9f791837df1ce5 *R/ecospat.ESM.R
 ce4a43038990765a6fcca92b4f30f441 *R/ecospat.ESM.responsePlot.R
@@ -40,7 +40,7 @@ aed7843af81fcd3f0a39b2d0e1a6e579 *data/ecospat.testNiche.nat.txt
 dc9475138fd9159045a225a32f47b605 *data/ecospat.testNichePOSNB.txt
 fd104a56eb1bc202186e82683959e459 *inst/doc/vignette_ecospat_package.R
 5bae2370e055455c1ac9b5b86ba0cc20 *inst/doc/vignette_ecospat_package.Rmd
-0c23c9cc823491bce74af6252658cba6 *inst/doc/vignette_ecospat_package.pdf
+b8b2f83014f6957f4985c46060f270b5 *inst/doc/vignette_ecospat_package.pdf
 b0a92429eef7b50f0ccb1619eb40a162 *inst/extdata/Csto4xEU.txt
 f45722362a325c4122535acee67bafda *inst/extdata/Csto4xNAM.txt
 ffa81366f80c7c30e22aac226c23e82a *inst/extdata/ecospat.testEnv.tif
