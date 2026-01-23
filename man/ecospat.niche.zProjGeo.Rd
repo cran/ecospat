@@ -39,12 +39,12 @@ library(terra)
 
 data("ecospat.testNiche")
 spp <- ecospat.testNiche
-xy.sp1<-subset(spp,species=="sp1")[2:3] #Bromus_erectus
+xy.sp1<-as.matrix(subset(spp,species=="sp1")[2:3]) #Bromus_erectus
 
 env<-terra::rast(system.file("extdata","ecospat.testEnv.tif",package="ecospat"))
 #plot(env)
 
-env.sp1<-terra::extract(env,xy.sp1)[,-1]
+env.sp1<-terra::extract(env,xy.sp1)
 env.bkg<-na.exclude(terra::values(env))
 
 #################################### PCA-ENVIRONMENT ##################################
@@ -67,6 +67,6 @@ points(scores.sp1)
 # sp1
 geoz1<-ecospat.niche.zProjGeo(z1,zproj=NULL,env=env)
 plot(geoz1,main="z1")
-points(xy.sp1)
+points(xy.sp1,col="white",pch=21)
 }}
 

@@ -141,7 +141,7 @@ ecospat.ESM.Modeling <- function(data, NbRunEval = NULL, DataSplit = NULL, DataS
   iniwd <- getwd()
   on.exit(setwd(iniwd))
   dir.create(paste("./ESM.BIOMOD.output", data@sp.name, sep = "_"))
-  newwd <- paste(getwd(), "/ESM.BIOMOD.output_", data@sp.name, 
+  newwd <- paste(getwd(), "/ESM.BIOMOD.output_", data@sp.name,
                  sep = "")
   setwd(newwd)
   combinations <- combn(colnames(data@data.env.var), 2)
@@ -206,6 +206,7 @@ ecospat.ESM.Modeling <- function(data, NbRunEval = NULL, DataSplit = NULL, DataS
   if (parallel == FALSE) {
     for (k in which.biva) {
       mydata <- data
+      mydata@dir.name<-getwd()
       mydata@data.env.var <- data@data.env.var[, colnames(data@data.env.var) %in% 
                                                  combinations[, k]]
       mydata@sp.name <- paste("ESM.BIOMOD", k, sep = ".")
@@ -312,9 +313,11 @@ ecospat.ESM.Modeling <- function(data, NbRunEval = NULL, DataSplit = NULL, DataS
                                                                                  weights = Yweights)
                                                       }
   }
-  output <- list(modeling.id = modeling.id, models. = grep(modeling.id, 
-                                                           gtools::mixedsort(list.files(getwd(), "models.out", recursive = TRUE, 
-                                                                                        full.names = TRUE)), value = TRUE), models = models, 
+  output <- list(modeling.id = modeling.id, 
+                 models. = grep(modeling.id, 
+                                gtools::mixedsort(list.files(getwd(), "models.out", recursive = TRUE, full.names = TRUE)), 
+                                value = TRUE), 
+                 models = models, 
                  calib.lines = calib.lines, NbRunEval = NbRunEval, data = data, 
                  wd = getwd(), which.biva = which.biva, mymodels = mymodels)
   save(output, file = paste("ESM_Modeling..models", modeling.id, 
@@ -1136,7 +1139,7 @@ ecospat.ESM.EnsembleProjection <- function(ESM.prediction.output, ESM.EnsembleMo
 ecospat.mpa <- function(Pred, Sp.occ.xy = NULL, perc = 0.9) {
   perc <- 1 - perc
   if (!is.null(Sp.occ.xy)) {
-    Pred <- terra::extract(Pred, as.data.frame(Sp.occ.xy),ID=FALSE)
+    Pred <- terra::extract(Pred, as.matrix(Sp.occ.xy))
   }
   round(quantile(Pred, probs = perc,na.rm = TRUE), 3)
 }

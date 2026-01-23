@@ -82,6 +82,10 @@ Daniel Scherrer <daniel.j.a.scherrer@gmail.com> with the updates from Flavien Co
 }
 \examples{
 \donttest{
+  
+  if (requireNamespace("R.utils", quietly = TRUE)) {
+  library(biomod2)
+  
   #Loading species occurence data and remove empty communities
   data(ecospat.testData)
   testData <- ecospat.testData[,c(24,34,43,45,48,53,55:58)]
@@ -118,6 +122,7 @@ Daniel Scherrer <daniel.j.a.scherrer@gmail.com> with the updates from Flavien Co
   #removing files on disk
   unlink(list.files(pattern=myCCV.Models$modeling.id))
   unlink(myCCV.Models$modeling.id,recursive=TRUE)
+  }
           
 }
 }

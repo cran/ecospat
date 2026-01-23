@@ -269,7 +269,9 @@ ecospat.CCV.modeling <- function(sp.data,
   #require(gtools)
   #require(PresenceAbsence)
   
-  attachNamespace("biomod2",include.only = "ModelsTable")
+  #attachNamespace("biomod2",include.only = "ModelsTable")
+  #ModelsTable <- biomod2::ModelsTable
+  #OptionsBigboss <- biomod2::OptionsBigboss
   
   #Checking all the input data
   stopifnot(dim(sp.data)[1]==dim(xy)[1])

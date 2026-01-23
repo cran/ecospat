@@ -291,3 +291,9 @@ ecospat_4.1.2 (30.01.2025)
 FIXES
 * compatibility fixes for biomod2 biomod2 4.2-6-2 to ESM functions
 
+ecospat_4.1.3 (23.01.2026)
+=============
+
+FIXES
+* compatibility fixes for biomod2 4.3-4-3 to ESM functions (path to ESM folders modified in BIOMOD.formated.data)
+* compatibility fixes for terra 1.8-93

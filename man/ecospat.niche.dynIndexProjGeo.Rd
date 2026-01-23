@@ -62,13 +62,13 @@ library(terra)
 
 data(ecospat.testNiche)
 spp <- ecospat.testNiche
-xy.sp1 <- subset(spp, species=="sp1")[2:3] #Bromus_erectus
-xy.sp2 <- subset(spp, species=="sp4")[2:3] #Pritzelago_alpina
+xy.sp1 <- as.matrix(subset(spp, species=="sp1")[2:3]) #Bromus_erectus
+xy.sp2 <- as.matrix(subset(spp, species=="sp4")[2:3]) #Pritzelago_alpina
 
 env<-terra::rast(system.file("extdata","ecospat.testEnv.tif",package="ecospat"))
 
-env.sp1 <- terra::extract(env, xy.sp1)[,-1]
-env.sp2 <- terra::extract(env, xy.sp2)[,-1]
+env.sp1 <- terra::extract(env, xy.sp1)
+env.sp2 <- terra::extract(env, xy.sp2)
 env.bkg <- na.exclude(terra::values(env))
 
 #####################
